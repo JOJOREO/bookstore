@@ -6,7 +6,12 @@ import { connect } from "react-redux";
 import store from "../store/store";
 import searchIcon from "../images/211818_search_icon.png";
 import searchIcon2 from "../images/1814075_find_magnifier_magnifying glass_search_icon.png";
-
+import blackEye from "../images/211661_eye_icon.png";
+import blackEyeHover from "../images/211661_eye_icon_hover.png";
+import editIcon from "../images/326602_create_edit_pencil_write_icon.png";
+import editIconHover from "../images/326602_create_edit_pencil_write_icon (1).png";
+import deleteIcon from "../images/352303_delete_icon.png";
+import deleteIconHover from "../images/352303_delete_icon (1).png";
 console.log("initial store ", store.getState());
 store.subscribe(() => {
   console.log("store changed full store ==> ", store.getState());
@@ -92,7 +97,46 @@ const ListBooks = (props) => {
                   <td>Otto</td>
                   <th scope="row">1</th>
                   <td>Mark</td>
-                  <td>Otto</td>
+                  <td>
+                    <div className="icons-div">
+                      <div className="lock-icon lock1">
+                        <img
+                          src={blackEye}
+                          alt="view"
+                          className="eye-icon-normal"
+                        />
+                        <img
+                          src={blackEyeHover}
+                          alt="view"
+                          className="eye-icon-active"
+                        />
+                      </div>
+                      <div className=" lock-icon lock2">
+                        <img
+                          src={editIcon}
+                          alt="edit"
+                          className="edit-icon-normal"
+                        />
+                        <img
+                          src={editIconHover}
+                          alt="edit"
+                          className="edit-icon-active"
+                        />
+                      </div>
+                      <div className="lock-icon  lock3">
+                        <img
+                          src={deleteIcon}
+                          alt="delete"
+                          className="delete-icon-normal"
+                        />
+                        <img
+                          src={deleteIconHover}
+                          alt="delete"
+                          className="delete-icon-active"
+                        />
+                      </div>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
@@ -100,7 +144,46 @@ const ListBooks = (props) => {
                   <td>Thornton</td>
                   <th scope="row">2</th>
                   <td>Jacob</td>
-                  <td>Thornton</td>
+                  <td>
+                    <div className="icons-div">
+                      <div className="lock-icon lock1">
+                        <img
+                          src={blackEye}
+                          alt="view"
+                          className="eye-icon-normal"
+                        />
+                        <img
+                          src={blackEyeHover}
+                          alt="view"
+                          className="eye-icon-active"
+                        />
+                      </div>
+                      <div className=" lock-icon lock2">
+                        <img
+                          src={editIcon}
+                          alt="edit"
+                          className="edit-icon-normal"
+                        />
+                        <img
+                          src={editIconHover}
+                          alt="edit"
+                          className="edit-icon-active"
+                        />
+                      </div>
+                      <div className="lock-icon  lock3">
+                        <img
+                          src={deleteIcon}
+                          alt="delete"
+                          className="delete-icon-normal"
+                        />
+                        <img
+                          src={deleteIconHover}
+                          alt="delete"
+                          className="delete-icon-active"
+                        />
+                      </div>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
@@ -108,7 +191,46 @@ const ListBooks = (props) => {
                   <td>Thornton</td>
                   <th scope="row">2</th>
                   <td>Jacob</td>
-                  <td>Thornton</td>
+                  <td>
+                    <div className="icons-div">
+                      <div className="lock-icon lock1">
+                        <img
+                          src={blackEye}
+                          alt="view"
+                          className="eye-icon-normal"
+                        />
+                        <img
+                          src={blackEyeHover}
+                          alt="view"
+                          className="eye-icon-active"
+                        />
+                      </div>
+                      <div className=" lock-icon lock2">
+                        <img
+                          src={editIcon}
+                          alt="edit"
+                          className="edit-icon-normal"
+                        />
+                        <img
+                          src={editIconHover}
+                          alt="edit"
+                          className="edit-icon-active"
+                        />
+                      </div>
+                      <div className="lock-icon  lock3">
+                        <img
+                          src={deleteIcon}
+                          alt="delete"
+                          className="delete-icon-normal"
+                        />
+                        <img
+                          src={deleteIconHover}
+                          alt="delete"
+                          className="delete-icon-active"
+                        />
+                      </div>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
@@ -116,7 +238,46 @@ const ListBooks = (props) => {
                   <td>Thornton</td>
                   <th scope="row">2</th>
                   <td>Jacob</td>
-                  <td>Thornton</td>
+                  <td>
+                    <div className="icons-div">
+                      <div className="lock-icon lock1">
+                        <img
+                          src={blackEye}
+                          alt="view"
+                          className="eye-icon-normal"
+                        />
+                        <img
+                          src={blackEyeHover}
+                          alt="view"
+                          className="eye-icon-active"
+                        />
+                      </div>
+                      <div className=" lock-icon lock2">
+                        <img
+                          src={editIcon}
+                          alt="edit"
+                          className="edit-icon-normal"
+                        />
+                        <img
+                          src={editIconHover}
+                          alt="edit"
+                          className="edit-icon-active"
+                        />
+                      </div>
+                      <div className="lock-icon  lock3">
+                        <img
+                          src={deleteIcon}
+                          alt="delete"
+                          className="delete-icon-normal"
+                        />
+                        <img
+                          src={deleteIconHover}
+                          alt="delete"
+                          className="delete-icon-active"
+                        />
+                      </div>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
@@ -124,7 +285,46 @@ const ListBooks = (props) => {
                   <td>Thornton</td>
                   <th scope="row">2</th>
                   <td>Jacob</td>
-                  <td>Thornton</td>
+                  <td>
+                    <div className="icons-div">
+                      <div className="lock-icon lock1">
+                        <img
+                          src={blackEye}
+                          alt="view"
+                          className="eye-icon-normal"
+                        />
+                        <img
+                          src={blackEyeHover}
+                          alt="view"
+                          className="eye-icon-active"
+                        />
+                      </div>
+                      <div className=" lock-icon lock2">
+                        <img
+                          src={editIcon}
+                          alt="edit"
+                          className="edit-icon-normal"
+                        />
+                        <img
+                          src={editIconHover}
+                          alt="edit"
+                          className="edit-icon-active"
+                        />
+                      </div>
+                      <div className="lock-icon  lock3">
+                        <img
+                          src={deleteIcon}
+                          alt="delete"
+                          className="delete-icon-normal"
+                        />
+                        <img
+                          src={deleteIconHover}
+                          alt="delete"
+                          className="delete-icon-active"
+                        />
+                      </div>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">2</th>
@@ -132,7 +332,46 @@ const ListBooks = (props) => {
                   <td>Thornton</td>
                   <th scope="row">2</th>
                   <td>Jacob</td>
-                  <td>Thornton</td>
+                  <td>
+                    <div className="icons-div">
+                      <div className="lock-icon lock1">
+                        <img
+                          src={blackEye}
+                          alt="view"
+                          className="eye-icon-normal"
+                        />
+                        <img
+                          src={blackEyeHover}
+                          alt="view"
+                          className="eye-icon-active"
+                        />
+                      </div>
+                      <div className=" lock-icon lock2">
+                        <img
+                          src={editIcon}
+                          alt="edit"
+                          className="edit-icon-normal"
+                        />
+                        <img
+                          src={editIconHover}
+                          alt="edit"
+                          className="edit-icon-active"
+                        />
+                      </div>
+                      <div className="lock-icon  lock3">
+                        <img
+                          src={deleteIcon}
+                          alt="delete"
+                          className="delete-icon-normal"
+                        />
+                        <img
+                          src={deleteIconHover}
+                          alt="delete"
+                          className="delete-icon-active"
+                        />
+                      </div>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>

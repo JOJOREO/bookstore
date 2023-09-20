@@ -360,6 +360,32 @@ ul button {
   /* height: auto; */
 }
 
+.lock-icon img {
+  margin: 0 25px;
+  margin-right: 0;
+  width: 20px;
+}
+.icons-div {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: end;
+}
+
+.lock1:hover .eye-icon-normal,
+.lock2:hover .edit-icon-normal,
+.lock3:hover .delete-icon-normal,
+.lock1 .eye-icon-active,
+.lock2 .edit-icon-active,
+.lock3 .delete-icon-active {
+  display: none;
+}
+.lock1:hover .eye-icon-active,
+.lock2:hover .edit-icon-active,
+.lock3:hover .delete-icon-active {
+  display: inline;
+}
+
 .full-ListBook {
   width: 100vw;
   transition: var(--transition);
