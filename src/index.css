@@ -1,4 +1,6 @@
 :root {
+  --background-color: #eff1fd;
+  --transition: all 0.3s linear;
   --spacing: 0.1rem;
   --radius: 0.25rem;
   --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -7,14 +9,23 @@
   --fixed-width: 620px;
 }
 
+/* debugging */
+/* 
+* {
+  border: 1px solid red;
+} */
+/* debugging */
+
 body {
   margin: 0;
+  /* border: 0; */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #eff1fd;
+  overflow: none;
 }
 
 /*  */
@@ -136,4 +147,220 @@ button .submitButton {
   object-fit: cover;
   border-top-right-radius: 32px;
   border-bottom-right-radius: 32px;
+}
+/* list-books component */
+
+aside {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: white;
+  transition: var(--transition);
+  transform: translate(-90%);
+}
+
+.show-sidebar {
+  transform: translate(0);
+}
+
+.sidebar-Header {
+  padding: 15px;
+  padding-right: 0;
+}
+
+.sidebar-tabs {
+  padding-top: 15px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  vertical-align: middle;
+  height: 60px;
+  padding-left: 20px;
+}
+.tab:hover {
+  background-color: var(--background-color);
+  border-right: 3px solid #ad5eab;
+}
+/* .colored-edge {
+  width: 2px;
+  background-color: #ad5eab;
+} */
+
+.active-tab {
+  background-color: var(--background-color);
+  border-right: 3px solid #ad5eab;
+}
+
+.minimized-listBook {
+  width: 80vw;
+  transition: var(--transition);
+}
+
+/* .full-ListBook {
+  width: 100vw;
+  transition: var(--transition);
+} */
+
+.content {
+  width: 100vw;
+  height: 100vh;
+  /* border: 10px solid red; */
+}
+
+/* navbar */
+nav {
+  transition: var(--transition);
+  max-width: 100%;
+  width: 90%;
+  overflow: hidden;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 0;
+  padding-left: 5vw;
+  padding-right: 1vw;
+  justify-content: space-between;
+  vertical-align: bottom;
+  overflow: visible;
+  z-index: 2;
+}
+nav h3 {
+  color: #2596be;
+}
+.dropdown-menu {
+  /* z-index: 10; */
+  display: inline-block;
+  /* margin-right: -200px; */
+  margin-left: -55px;
+  margin-top: 10px;
+  /* padding-right: -200px; */
+  /* position: relative;
+  right: 100px;
+  top: 1px; */
+}
+ul {
+  padding-left: 10px;
+  list-style: none;
+}
+ul button {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.showDropDown {
+  visibility: hidden;
+  /* height: 160px; */
+}
+
+/* booksList */
+.books {
+  padding-left: 5vw;
+  padding-right: 1vw;
+}
+/* .books h1 {
+  padding-left: 5vw;
+} */
+.books {
+  transition: var(--transition);
+  width: 90vw;
+}
+
+.search-input {
+  width: 25vw;
+}
+
+.search-div {
+  display: flex;
+}
+
+/* .password-div input {
+  width: 100%;
+} */
+.search-div button {
+  width: 0;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: -30px;
+  font-size: small;
+  background: none;
+  border: none;
+}
+.search-div img {
+  height: 25px;
+}
+.books-form-div {
+  display: flex;
+  padding: 10px 0;
+  justify-content: space-between;
+  vertical-align: bottom;
+  /* align-items: center; */
+}
+
+/* .add-book-div button{
+  margin: 0;
+  margin-left: 50px;
+} */
+/* .add-book-div button {
+  margin-left: -55px;
+  margin-top: 10px;
+  align-items: center;
+} */
+
+.books-table {
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 20px;
+  /* padding: 10px; */
+}
+/* makes css shifting to login page */
+.books-table tr,
+.books-table th,
+.books-table td {
+  width: 15%;
+  text-align: left;
+}
+.books-table tr:nth-child(6),
+.books-table th:nth-child(6),
+.books-table td:nth-child(6) {
+  width: 25%;
+  text-align: end;
+  padding-right: 20px;
+}
+.pagination-nav {
+  /* border: 1px solid red; */
+  padding: 0;
+  margin: 0;
+  position: relative;
+  float: right;
+  width: auto;
+  /* right: 0; */
+  /* height: auto; */
+  /* padding-right: 1vw; */
+  /* padding-left: 5vw; */
+  /* left: 0; */
+  /* width: 100%; */
+}
+.pagination-nav nav {
+  /* align-items: end; */
+  /* justify-content: end; */
+  padding: 0;
+  margin: 0;
+  /* border: 1px solid green; */
+  width: 100%;
+  background: transparent;
+  /* height: 100%; */
+  /* height: auto; */
+}
+
+.full-ListBook {
+  width: 100vw;
+  transition: var(--transition);
 }

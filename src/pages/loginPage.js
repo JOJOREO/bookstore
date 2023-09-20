@@ -2,7 +2,19 @@ import React, { useState } from "react";
 // import { libraryImage } from "./libraryImg.png";
 import libraryImage from "../images/libraryImg.png";
 import logoIMg from "../images/acore-logo-2.png.webp";
-const LoginPage = () => {
+
+import { toggleSideBarFunction } from "../store/actions";
+import store from "../store/store";
+
+import { connect } from "react-redux";
+
+import { LoginUser } from "../store/actions";
+import { LogoutUser } from "../store/actions";
+
+import { useNavigate } from "react-router-dom";
+const LoginPage = (props) => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); //optional , not used (splitting used logged in or not into separate state )
@@ -14,8 +26,14 @@ const LoginPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setUser({ data: { email: email, password: password }, loginState: true });
+    // props.LoginUser(user);
+    props.LoginUser({
+      data: { email: email, password: password },
+      loginState: true,
+    });
     setEmail("");
     setPassword("");
+    navigate("/");
   };
 
   return (
@@ -87,4 +105,22 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+// export default LoginPage;
+
+const mapStateToProps = (state) => {
+  return {
+    toggleSideBar: state.toggleSideBar,
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleSideBarFunction: (toggleSideBar) =>
+      dispatch(toggleSideBarFunction(toggleSideBar)),
+    LoginUser: (user) => dispatch(LoginUser(user)),
+    LogoutUser: (user) => dispatch(LogoutUser(user)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
