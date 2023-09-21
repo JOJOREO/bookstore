@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toggleSideBarFunction } from "../store/actions";
 import { connect } from "react-redux";
 // import { connect } from "react-redux";
@@ -6,10 +6,14 @@ import { connect } from "react-redux";
 import { LoginUser } from "../store/actions";
 import { LogoutUser } from "../store/actions";
 
+import { useNavigate } from "react-router-dom";
+
 const Navbar = (props) => {
+  const navigate = useNavigate();
+
   // const { email, password } = props.data;/
   console.log(props);
-  console.log(props.user[0].data.email);
+  // console.log(props.user[0].data.email);
   // console.log(props.toggleSideBar.toggleSideBar);
   const [toggleDropDown, setToggleDropDown] = useState(false);
   return (
@@ -35,7 +39,7 @@ const Navbar = (props) => {
             <li>
               {/* {props.user.data.email && <p>exist</p>} */}
               {/* {props.user ? `${props.user.data.email}` : "none"} */}
-              {props.user[0].loginState
+              {props.user[0] && props.user[0].loginState
                 ? props.user[0].data.email
                 : "Anonymous user"}
             </li>
@@ -44,6 +48,7 @@ const Navbar = (props) => {
                 onClick={() => {
                   props.LogoutUser(props.user);
                   setToggleDropDown(!toggleDropDown);
+                  navigate("/login");
                 }}
               >
                 logout

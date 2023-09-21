@@ -320,12 +320,29 @@ ul button {
   margin-top: 20px;
   /* padding: 10px; */
 }
-/* makes css shifting to login page */
+.books-table table th {
+  padding: 10px 0;
+}
+
+.table > tbody > tr > th,
+.table > thead > tr > th,
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
 .books-table tr,
 .books-table th,
 .books-table td {
-  width: 15%;
+  width: 20%;
+  height: 8vh;
   text-align: left;
+  /* vertical-align: middle; */
+  /* justify-content: flex-start; */
+  /* align-items: flex-start; */
+  /* height: 60px; */
+  /* align-items: center;
+  justify-content: center; */
+  /* vertical-align: text-top; */
 }
 .books-table tr:nth-child(6),
 .books-table th:nth-child(6),
@@ -365,6 +382,12 @@ ul button {
   margin-right: 0;
   width: 20px;
 }
+
+.lock-icon button {
+  background: none;
+  border: none;
+}
+
 .icons-div {
   display: flex;
   flex-direction: row;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../components/sideBar";
 import Navbar from "../components/Navbar";
 import { toggleSideBarFunction } from "../store/actions";
@@ -13,6 +13,7 @@ import editIconHover from "../images/326602_create_edit_pencil_write_icon (1).pn
 import deleteIcon from "../images/352303_delete_icon.png";
 import deleteIconHover from "../images/352303_delete_icon (1).png";
 console.log("initial store ", store.getState());
+
 store.subscribe(() => {
   console.log("store changed full store ==> ", store.getState());
   console.log(
@@ -24,8 +25,65 @@ const handleSubmit = (e) => {
   e.preventDefault();
 };
 
+const url =
+  "https://www.googleapis.com/books/v1/volumes?q=flowers&filter=free-ebooks&key=" +
+  "AIzaSyBqQ-1lxJPfHM-9gxOHnL9qsvlXOw7MnQM";
+
 const ListBooks = (props) => {
-  // const { toggleSideBar } = store.getState().toggleSideBar.toggleSideBar;
+  const [booksData, setBooksData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getData = async () => {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log(data);
+      setBooksData(data);
+      setLoading(false);
+    };
+    getData();
+  }, []);
+
+  const [bookTitle, setBookTitle] = useState();
+  const [bookCategory, setBookCategory] = useState();
+  const [bookAuthor, setBookAuthor] = useState();
+  const [bookISBN, setBookISBN] = useState();
+  const [bookVersion, setBookVersion] = useState();
+
+  const [pageIndex, setPageIndex] = useState(1);
+  const [searchWord, setSearchWord] = useState("");
+
+  const search = () => {
+    let found = false;
+    let foundArr = [];
+    if (searchWord === "") {
+      alert("please enter search word");
+      return;
+    }
+    const result = booksData.items.filter((book, index) => {
+      let authors = book.volumeInfo.authors;
+      console.log(authors && authors.toString());
+      if (
+        book.volumeInfo.title.includes(searchWord) ||
+        (book.volumeInfo.authors &&
+          book.volumeInfo.authors.toString().includes(searchWord))
+      ) {
+        found = true;
+        return book;
+      }
+
+      if (index === booksData.items.length - 1 && !found) {
+        alert("no match found");
+
+        return;
+      }
+    });
+    console.log("result ", result);
+    console.log("pageIndex ", pageIndex);
+    setBooksData({ items: result });
+    setSearchWord("");
+  };
+
   return (
     <div
       className={
@@ -36,12 +94,7 @@ const ListBooks = (props) => {
     >
       {console.log(props.toggleSideBar)}
       <SideBar />
-      <div
-        // className={`content ${
-        //   props.toggleSideBar.toggleSideBar ? "full-ListBook" : ""
-        // }`}
-        className={`content`}
-      >
+      <div className={`content`}>
         {store.getState().toggleSideBar.toggleSideBar}
         <Navbar />
         <div
@@ -57,8 +110,18 @@ const ListBooks = (props) => {
                   className="form-control search-input"
                   type="text"
                   placeholder="Search"
+                  value={searchWord}
+                  onChange={(e) => {
+                    setSearchWord(e.target.value);
+                  }}
                 />
-                <button type="button" className="search-Button">
+                <button
+                  type="submit"
+                  className="search-Button"
+                  onClick={() => {
+                    search();
+                  }}
+                >
                   <img src={searchIcon}></img>
                 </button>
               </div>
@@ -71,339 +134,171 @@ const ListBooks = (props) => {
           </form>
 
           <div className="books-table">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th style={{ width: "15%" }}>Book Title</th>
-                  <th style={{ width: "15%" }}>Book Category</th>
-                  <th style={{ width: "15%" }}>Book Author</th>
-                  <th style={{ width: "15%" }}>Book ISBN</th>
-                  <th style={{ width: "15%" }}>Book Version</th>
-                  <th
-                    style={{
-                      width: "25%",
-                      textAlign: "end",
-                      paddingRight: "20px",
-                    }}
-                  >
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>
-                    <div className="icons-div">
-                      <div className="lock-icon lock1">
-                        <img
-                          src={blackEye}
-                          alt="view"
-                          className="eye-icon-normal"
-                        />
-                        <img
-                          src={blackEyeHover}
-                          alt="view"
-                          className="eye-icon-active"
-                        />
-                      </div>
-                      <div className=" lock-icon lock2">
-                        <img
-                          src={editIcon}
-                          alt="edit"
-                          className="edit-icon-normal"
-                        />
-                        <img
-                          src={editIconHover}
-                          alt="edit"
-                          className="edit-icon-active"
-                        />
-                      </div>
-                      <div className="lock-icon  lock3">
-                        <img
-                          src={deleteIcon}
-                          alt="delete"
-                          className="delete-icon-normal"
-                        />
-                        <img
-                          src={deleteIconHover}
-                          alt="delete"
-                          className="delete-icon-active"
-                        />
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>
-                    <div className="icons-div">
-                      <div className="lock-icon lock1">
-                        <img
-                          src={blackEye}
-                          alt="view"
-                          className="eye-icon-normal"
-                        />
-                        <img
-                          src={blackEyeHover}
-                          alt="view"
-                          className="eye-icon-active"
-                        />
-                      </div>
-                      <div className=" lock-icon lock2">
-                        <img
-                          src={editIcon}
-                          alt="edit"
-                          className="edit-icon-normal"
-                        />
-                        <img
-                          src={editIconHover}
-                          alt="edit"
-                          className="edit-icon-active"
-                        />
-                      </div>
-                      <div className="lock-icon  lock3">
-                        <img
-                          src={deleteIcon}
-                          alt="delete"
-                          className="delete-icon-normal"
-                        />
-                        <img
-                          src={deleteIconHover}
-                          alt="delete"
-                          className="delete-icon-active"
-                        />
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>
-                    <div className="icons-div">
-                      <div className="lock-icon lock1">
-                        <img
-                          src={blackEye}
-                          alt="view"
-                          className="eye-icon-normal"
-                        />
-                        <img
-                          src={blackEyeHover}
-                          alt="view"
-                          className="eye-icon-active"
-                        />
-                      </div>
-                      <div className=" lock-icon lock2">
-                        <img
-                          src={editIcon}
-                          alt="edit"
-                          className="edit-icon-normal"
-                        />
-                        <img
-                          src={editIconHover}
-                          alt="edit"
-                          className="edit-icon-active"
-                        />
-                      </div>
-                      <div className="lock-icon  lock3">
-                        <img
-                          src={deleteIcon}
-                          alt="delete"
-                          className="delete-icon-normal"
-                        />
-                        <img
-                          src={deleteIconHover}
-                          alt="delete"
-                          className="delete-icon-active"
-                        />
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>
-                    <div className="icons-div">
-                      <div className="lock-icon lock1">
-                        <img
-                          src={blackEye}
-                          alt="view"
-                          className="eye-icon-normal"
-                        />
-                        <img
-                          src={blackEyeHover}
-                          alt="view"
-                          className="eye-icon-active"
-                        />
-                      </div>
-                      <div className=" lock-icon lock2">
-                        <img
-                          src={editIcon}
-                          alt="edit"
-                          className="edit-icon-normal"
-                        />
-                        <img
-                          src={editIconHover}
-                          alt="edit"
-                          className="edit-icon-active"
-                        />
-                      </div>
-                      <div className="lock-icon  lock3">
-                        <img
-                          src={deleteIcon}
-                          alt="delete"
-                          className="delete-icon-normal"
-                        />
-                        <img
-                          src={deleteIconHover}
-                          alt="delete"
-                          className="delete-icon-active"
-                        />
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>
-                    <div className="icons-div">
-                      <div className="lock-icon lock1">
-                        <img
-                          src={blackEye}
-                          alt="view"
-                          className="eye-icon-normal"
-                        />
-                        <img
-                          src={blackEyeHover}
-                          alt="view"
-                          className="eye-icon-active"
-                        />
-                      </div>
-                      <div className=" lock-icon lock2">
-                        <img
-                          src={editIcon}
-                          alt="edit"
-                          className="edit-icon-normal"
-                        />
-                        <img
-                          src={editIconHover}
-                          alt="edit"
-                          className="edit-icon-active"
-                        />
-                      </div>
-                      <div className="lock-icon  lock3">
-                        <img
-                          src={deleteIcon}
-                          alt="delete"
-                          className="delete-icon-normal"
-                        />
-                        <img
-                          src={deleteIconHover}
-                          alt="delete"
-                          className="delete-icon-active"
-                        />
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>
-                    <div className="icons-div">
-                      <div className="lock-icon lock1">
-                        <img
-                          src={blackEye}
-                          alt="view"
-                          className="eye-icon-normal"
-                        />
-                        <img
-                          src={blackEyeHover}
-                          alt="view"
-                          className="eye-icon-active"
-                        />
-                      </div>
-                      <div className=" lock-icon lock2">
-                        <img
-                          src={editIcon}
-                          alt="edit"
-                          className="edit-icon-normal"
-                        />
-                        <img
-                          src={editIconHover}
-                          alt="edit"
-                          className="edit-icon-active"
-                        />
-                      </div>
-                      <div className="lock-icon  lock3">
-                        <img
-                          src={deleteIcon}
-                          alt="delete"
-                          className="delete-icon-normal"
-                        />
-                        <img
-                          src={deleteIconHover}
-                          alt="delete"
-                          className="delete-icon-active"
-                        />
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            {!loading && (
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Book Title</th>
+                    <th>Book Category</th>
+                    <th>Book Author</th>
+                    <th>Book ISBN</th>
+                    <th>Book Version</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {booksData && console.log(booksData.items)}
+
+                  {booksData.items &&
+                    booksData.items
+                      .map((book, index) => {
+                        console.log(book);
+                        const id = book.id;
+                        const {
+                          title,
+                          categories,
+                          authors,
+                          contentVersion,
+                          imageLinks,
+                          pageCount,
+                          publishedDate,
+                          industryIdentifiers,
+                          subtitle,
+                        } = book.volumeInfo;
+                        // while (index <= 6)
+                        return (
+                          <tr key={id}>
+                            <td scope="row">
+                              {/* {booksData.items[index].volumeInfo.title} */}
+                              {title}
+                            </td>
+                            <td>{categories ? categories : "Flowers"}</td>
+                            <td>{authors ? authors : "unknown"}</td>
+                            <td scope="row">
+                              {industryIdentifiers[0].identifier}
+                            </td>
+                            <td>{contentVersion}</td>
+                            <td>
+                              <div className="icons-div">
+                                <div className="lock-icon lock1">
+                                  <button type="button">
+                                    <img
+                                      src={blackEye}
+                                      alt="view"
+                                      className="eye-icon-normal"
+                                    />
+                                    <img
+                                      src={blackEyeHover}
+                                      alt="view"
+                                      className="eye-icon-active"
+                                    />
+                                  </button>
+                                </div>
+                                <div className=" lock-icon lock2">
+                                  <button type="button">
+                                    <img
+                                      src={editIcon}
+                                      alt="edit"
+                                      className="edit-icon-normal"
+                                    />
+                                    <img
+                                      src={editIconHover}
+                                      alt="edit"
+                                      className="edit-icon-active"
+                                    />
+                                  </button>
+                                </div>
+                                <div className="lock-icon  lock3">
+                                  <button type="button">
+                                    <img
+                                      src={deleteIcon}
+                                      alt="delete"
+                                      className="delete-icon-normal"
+                                    />
+                                    <img
+                                      src={deleteIconHover}
+                                      alt="delete"
+                                      className="delete-icon-active"
+                                    />
+                                  </button>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                      .filter((book, index) => {
+                        if (pageIndex === 1) {
+                          if (index < 6) return book;
+                        } else {
+                          if (index > 6) return book;
+                        }
+                      })}
+                </tbody>
+              </table>
+            )}
           </div>
           <div className="pagination-nav">
             <nav aria-label="Page navigation example">
               <ul className="pagination">
-                <li className="page-item">
-                  <a className="page-link" href="#!" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span className="sr-only">Previous</span>
+                <li className={`page-item `}>
+                  <a className="page-link" aria-label="Previous">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        pageIndex > 1 ? setPageIndex(1) : "setPageIndex(2)";
+                        console.log(pageIndex);
+                      }}
+                    >
+                      <span aria-hidden="true">&laquo;</span>
+                      <span className="sr-only">Previous</span>
+                    </button>
+                  </a>
+                </li>
+                <li
+                  className={`page-item ${
+                    pageIndex === 1 ? "page-item active" : ""
+                  }`}
+                >
+                  <a className="page-link">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPageIndex(1);
+                      }}
+                    >
+                      1
+                    </button>
+                  </a>
+                </li>
+                <li
+                  className={`page-item ${
+                    pageIndex === 2 ? "page-item active" : ""
+                  }`}
+                >
+                  <a className="page-link">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPageIndex(2);
+                      }}
+                    >
+                      2
+                    </button>
                   </a>
                 </li>
                 <li className="page-item">
-                  <a className="page-link" href="#!">
-                    1
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#!">
-                    2
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#!">
-                    3
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#!" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span className="sr-only">Next</span>
+                  <a className="page-link" aria-label="Next">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        pageIndex < 2 ? setPageIndex(2) : "setPageIndex(1)";
+                        console.log(pageIndex);
+                      }}
+                    >
+                      <span aria-hidden="true">&raquo;</span>
+                      <span className="sr-only">Next</span>
+                    </button>
                   </a>
                 </li>
               </ul>

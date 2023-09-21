@@ -41,7 +41,7 @@ const SideBar = (props) => {
       </div>
 
       <div className="sidebar-tabs ">
-        <div className="tab ">
+        <div className="tab active-tab">
           <img style={{ height: "20px" }} src={filesIcon}></img>
           <h5 style={{ marginLeft: "30px", fontWeight: "bold" }}>Books</h5>
           {/* <div className="colored-edge"></div> */}
