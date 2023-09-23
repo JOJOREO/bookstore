@@ -33,7 +33,7 @@ const LoginPage = (props) => {
     });
     setEmail("");
     setPassword("");
-    navigate("/");
+    navigate("/main-page");
   };
 
   return (

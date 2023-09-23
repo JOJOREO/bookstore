@@ -10,3 +10,12 @@ export const LoginUser = (payload) => {
 export const LogoutUser = (payload) => {
   return { type: "Logout", payload };
 };
+export const bookSetter = (payload) => {
+  return { type: "setBook", payload };
+};
+export const bookDelete = (payload) => {
+  return { type: "deleteBook", payload };
+};
+export const AddToDeleteArray = (payload) => {
+  return { type: "AddToDeleteArray", payload };
+};

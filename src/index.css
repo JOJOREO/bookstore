@@ -409,7 +409,50 @@ ul button {
   display: inline;
 }
 
+.pagination > li > a {
+  background-color: transparent;
+  border: none;
+  color: grey;
+}
+
+.pagination > li > a:hover {
+  background-color: transparent;
+}
+
+/* book-details */
+
+/* repeated used classes */
+
+/* .content {
+  width: 100vw;
+  height: 100vh;
+} */
+
+/* .books {
+  padding-left: 5vw;
+  padding-right: 1vw;
+}
+/* .books h1 {
+  padding-left: 5vw;
+} */
+/* .books {
+  transition: var(--transition);
+  width: 90vw;
+}  */
+
+/*  */
+
 .full-ListBook {
   width: 100vw;
   transition: var(--transition);
 }
+
+/* button:focus {
+  border: none;
+  outline: 0;
+} */
+*:focus {
+  outline: 0 !important;
+}
+
+/* toast styles */

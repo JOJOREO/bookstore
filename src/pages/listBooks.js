@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import SideBar from "../components/sideBar";
 import Navbar from "../components/Navbar";
 import { toggleSideBarFunction } from "../store/actions";
+import { bookSetter } from "../store/actions";
+import { bookDelete } from "../store/actions";
+import { AddToDeleteArray } from "../store/actions";
+
 import { connect } from "react-redux";
 import store from "../store/store";
+
 import searchIcon from "../images/211818_search_icon.png";
 import searchIcon2 from "../images/1814075_find_magnifier_magnifying glass_search_icon.png";
 import blackEye from "../images/211661_eye_icon.png";
@@ -12,14 +17,17 @@ import editIcon from "../images/326602_create_edit_pencil_write_icon.png";
 import editIconHover from "../images/326602_create_edit_pencil_write_icon (1).png";
 import deleteIcon from "../images/352303_delete_icon.png";
 import deleteIconHover from "../images/352303_delete_icon (1).png";
+
+import { useNavigate } from "react-router-dom";
+
 console.log("initial store ", store.getState());
 
 store.subscribe(() => {
   console.log("store changed full store ==> ", store.getState());
-  console.log(
-    "store changed single variable == >",
-    store.getState().toggleSideBar.toggleSideBar
-  );
+  // console.log(
+  //   "store changed single variable == >",
+  //   store.getState().toggleSideBar.toggleSideBar
+  // );
 });
 const handleSubmit = (e) => {
   e.preventDefault();
@@ -28,21 +36,184 @@ const handleSubmit = (e) => {
 const url =
   "https://www.googleapis.com/books/v1/volumes?q=flowers&filter=free-ebooks&key=" +
   "AIzaSyBqQ-1lxJPfHM-9gxOHnL9qsvlXOw7MnQM";
+// const url =
+//   "https://www.googleapis.com/books/v1/volumes?q=flowers&key=" +
+//   "AIzaSyBqQ-1lxJPfHM-9gxOHnL9qsvlXOw7MnQM";
 
 const ListBooks = (props) => {
   const [booksData, setBooksData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [deletedBookConfirm, setDeletedBookConfirm] = useState(
+    store.getState().book.deletedBookConfirm
+  );
+
+  const getData = async () => {
+    // const data2 = window.localStorage.getItem("booksData");
+    // if (data2 !== null) setBooksData(JSON.parse(data2));
+    // else {
+    const response = await fetch(url);
+    const data = await response.json();
+    // console.log(data.items);
+    // console.log(store.getState().book.deletedArray);
+    if (store.getState().book.deletedArray.length != 0) {
+      let result = data.items.filter((book, index) => {
+        // console.log(store.getState().book.deletedArray.includes(book.id));
+        if (!store.getState().book.deletedArray.includes(book.id)) return book;
+      });
+      // console.log(result);
+      setBooksData({ items: result });
+    } else setBooksData(data);
+    // console.log(data);
+    // console.log(booksData);
+    // window.localStorage.setItem("booksData", JSON.stringify(booksData));
+    setLoading(false);
+    // }
+  };
 
   useEffect(() => {
-    const getData = async () => {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-      setBooksData(data);
-      setLoading(false);
-    };
+    // console.log("rerender");
+    // console.log(store.getState().book);
+    // const getData = async () => {
+    //   const response = await fetch(url);
+    //   const data = await response.json();
+    //   console.log(data);
+    //   console.log(booksData);
+    //   setBooksData(data);
+    //   setLoading(false);
+    // };
+
     getData();
+    // props.bookDelete(deleteBook);
   }, []);
+
+  useEffect(() => {}, [booksData]);
+
+  // function deleteBookFnc(bookId) {
+  //   fetch(url, { method: "DELETE" }).then((result) => {
+  //     result.json().then((response) => {
+  //       console.log(response);
+  //     });
+  //   });
+  // }
+
+  // const deleteBookFnc = async () => {
+  //   let result = await fetch(url, { method: "DELETE" });
+  //   result = await result.json();
+  //   console.log(result);
+  //   // const data = await response.json();
+  //   // console.log(data);
+  //   // console.log(booksData);
+  //   // setBooksData(data);
+  //   // setLoading(false);
+  // };
+
+  // function deleteBookFnc(bookId) {
+  //   fetch(url, { method: "DELETE" }).then((result) => {
+  //     result.json().then((response) => {
+  //       console.log(response);
+  //     });
+  //   });
+  // }
+
+  // const getDataAgain = () => {
+  //   const getData = async () => {
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+  //     console.log(data);
+  //     setBooksData(data);
+  //     setLoading(false);
+  //   };
+  //   getData();
+  // };
+
+  // useEffect(() => {
+  //   booksData === undefined ? getDataAgain() : "";
+  // }, [booksData]);
+
+  // useEffect(() => {
+  //   console.log(booksData);
+  //   console.log(store.getState().book.book.id);
+  //   console.log(store.getState().book.deletedBookConfirm);
+  //   console.log(deletedBookConfirm);
+
+  //   // deletedBookConfirm
+  //   //   ? deleteFromDetails(
+  //   //       store.getState().book.book.id ? store.getState().book.book.id : ""
+  //   //     )
+  //   //   : "";
+
+  //   // deletedBookConfirm
+  //   //   ? deleteBook(
+  //   //       store.getState().book.book.id ? store.getState().book.book.id : ""
+  //   //     )
+  //   //   : "";
+  // }, [deletedBookConfirm]);
+
+  const deleteBook = async (bookId) => {
+    props.AddToDeleteArray(bookId);
+    // const response = await fetch(url);
+    // const data = await response.json();
+    // setBooksData(data);
+    // setLoading(false);
+
+    // getData();
+    // console.log(bookId);
+    // console.log(booksData);
+    // console.log(data);
+    let newBooksArray = [];
+    // newBooksArray = booksData.items.filter((book, index) => {
+    newBooksArray = booksData.items.filter((book, index) => {
+      // console.log(book);
+      // console.log(book.id);
+      // console.log(bookId);
+      if (
+        book.id !== bookId &&
+        !store.getState().book.deletedArray.includes(book.id)
+      ) {
+        // console.log("normal found");
+        return book;
+      }
+    });
+    // console.log({ items: newBooksArray });
+    setBooksData({ items: newBooksArray });
+    // console.log(window.localStorage.getItem("booksData"));
+    // window.localStorage.setItem(
+    //   "booksData",
+    //   JSON.stringify({ items: newBooksArray })
+    // );
+  };
+
+  const deleteFromDetails = async (bookId) => {
+    props.AddToDeleteArray(bookId);
+    const response = await fetch(url);
+    const data = await response.json();
+    // setBooksData(data);
+    // setLoading(false);
+
+    // getData();
+    // console.log(bookId);
+    // console.log(booksData);
+    // console.log(data);
+    let newBooksArray = [];
+    // newBooksArray = booksData.items.filter((book, index) => {
+    newBooksArray = data.items.filter((book, index) => {
+      // console.log(book);
+      // console.log(book.id);
+      // console.log(bookId);
+      console.log(!store.getState().book.deletedArray.includes(book.id));
+      if (
+        book.id !== bookId ||
+        !store.getState().book.deletedArray.includes(book.id)
+      ) {
+        console.log("normal found");
+        return book;
+      }
+    });
+    console.log({ items: newBooksArray });
+    setBooksData({ items: newBooksArray });
+  };
+
+  // props.bookDelete(deleteBook);
 
   const [bookTitle, setBookTitle] = useState();
   const [bookCategory, setBookCategory] = useState();
@@ -52,17 +223,17 @@ const ListBooks = (props) => {
 
   const [pageIndex, setPageIndex] = useState(1);
   const [searchWord, setSearchWord] = useState("");
+  const navigate = useNavigate();
 
   const search = () => {
     let found = false;
-    let foundArr = [];
     if (searchWord === "") {
       alert("please enter search word");
       return;
     }
     const result = booksData.items.filter((book, index) => {
       let authors = book.volumeInfo.authors;
-      console.log(authors && authors.toString());
+      // console.log(authors && authors.toString());
       if (
         book.volumeInfo.title.includes(searchWord) ||
         (book.volumeInfo.authors &&
@@ -78,8 +249,8 @@ const ListBooks = (props) => {
         return;
       }
     });
-    console.log("result ", result);
-    console.log("pageIndex ", pageIndex);
+    // console.log("result ", result);
+    // console.log("pageIndex ", pageIndex);
     setBooksData({ items: result });
     setSearchWord("");
   };
@@ -92,7 +263,8 @@ const ListBooks = (props) => {
           : "full-ListBook"
       }
     >
-      {console.log(props.toggleSideBar)}
+      {/* {console.log(props.toggleSideBar)} */}
+      {/* {console.log(props)} */}
       <SideBar />
       <div className={`content`}>
         {store.getState().toggleSideBar.toggleSideBar}
@@ -147,12 +319,12 @@ const ListBooks = (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {booksData && console.log(booksData.items)}
+                  {/* {booksData && console.log(booksData.items)} */}
 
                   {booksData.items &&
                     booksData.items
                       .map((book, index) => {
-                        console.log(book);
+                        // console.log(book);
                         const id = book.id;
                         const {
                           title,
@@ -181,7 +353,13 @@ const ListBooks = (props) => {
                             <td>
                               <div className="icons-div">
                                 <div className="lock-icon lock1">
-                                  <button type="button">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      navigate("/book-details");
+                                      props.bookSetter(book);
+                                    }}
+                                  >
                                     <img
                                       src={blackEye}
                                       alt="view"
@@ -209,7 +387,13 @@ const ListBooks = (props) => {
                                   </button>
                                 </div>
                                 <div className="lock-icon  lock3">
-                                  <button type="button">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      // deleteBook(book.id);
+                                      deleteBook(book.id);
+                                    }}
+                                  >
                                     <img
                                       src={deleteIcon}
                                       alt="delete"
@@ -238,72 +422,79 @@ const ListBooks = (props) => {
               </table>
             )}
           </div>
-          <div className="pagination-nav">
-            <nav aria-label="Page navigation example">
-              <ul className="pagination">
-                <li className={`page-item `}>
-                  <a className="page-link" aria-label="Previous">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        pageIndex > 1 ? setPageIndex(1) : "setPageIndex(2)";
-                        console.log(pageIndex);
-                      }}
+          {booksData.items && (
+            <div className="pagination-nav">
+              <nav
+                aria-label="Page navigation example"
+                style={{ background: "none" }}
+              >
+                <ul className="pagination">
+                  <li className={`page-item `}>
+                    <a className="page-link" aria-label="Previous">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          pageIndex > 1 ? setPageIndex(1) : "setPageIndex(2)";
+                          // console.log(pageIndex);
+                        }}
+                      >
+                        <span aria-hidden="true">&laquo;</span>
+                        <span className="sr-only">Previous</span>
+                      </button>
+                    </a>
+                  </li>
+                  <li
+                    className={`page-item ${
+                      pageIndex === 1 ? "page-item active" : ""
+                    }`}
+                  >
+                    <a className="page-link">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPageIndex(1);
+                        }}
+                      >
+                        1
+                      </button>
+                    </a>
+                  </li>
+                  {booksData.items.length > 6 && (
+                    <li
+                      className={`page-item ${
+                        pageIndex === 2 ? "page-item active" : ""
+                      }`}
                     >
-                      <span aria-hidden="true">&laquo;</span>
-                      <span className="sr-only">Previous</span>
-                    </button>
-                  </a>
-                </li>
-                <li
-                  className={`page-item ${
-                    pageIndex === 1 ? "page-item active" : ""
-                  }`}
-                >
-                  <a className="page-link">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setPageIndex(1);
-                      }}
-                    >
-                      1
-                    </button>
-                  </a>
-                </li>
-                <li
-                  className={`page-item ${
-                    pageIndex === 2 ? "page-item active" : ""
-                  }`}
-                >
-                  <a className="page-link">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setPageIndex(2);
-                      }}
-                    >
-                      2
-                    </button>
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" aria-label="Next">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        pageIndex < 2 ? setPageIndex(2) : "setPageIndex(1)";
-                        console.log(pageIndex);
-                      }}
-                    >
-                      <span aria-hidden="true">&raquo;</span>
-                      <span className="sr-only">Next</span>
-                    </button>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+                      <a className="page-link">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setPageIndex(2);
+                          }}
+                        >
+                          2
+                        </button>
+                      </a>
+                    </li>
+                  )}
+                  <li className="page-item">
+                    <a className="page-link" aria-label="Next">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          pageIndex < 2 ? setPageIndex(2) : "setPageIndex(1)";
+                          // console.log(pageIndex);
+                        }}
+                      >
+                        <span aria-hidden="true">&raquo;</span>
+                        <span className="sr-only">Next</span>
+                      </button>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -316,6 +507,7 @@ const mapStateToProps = (state) => {
   return {
     toggleSideBar: state.toggleSideBar,
     user: state.user,
+    book: state.book,
   };
 };
 
@@ -323,6 +515,15 @@ const mapDispatchToProps = (dispatch) => {
   return {
     toggleSideBarFunction: (toggleSideBar) =>
       dispatch(toggleSideBarFunction(toggleSideBar)),
+    bookSetter: (book) => {
+      dispatch(bookSetter(book));
+    },
+    bookDelete: (deletedBookConfirm) => {
+      dispatch(bookDelete(deletedBookConfirm));
+    },
+    AddToDeleteArray: (deletedBookId) => {
+      dispatch(AddToDeleteArray(deletedBookId));
+    },
   };
 };
 // console.log("initial store ", store.getState());

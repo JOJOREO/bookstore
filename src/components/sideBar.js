@@ -9,11 +9,12 @@ import { toggleSideBarFunction } from "../store/actions";
 import store from "../store/store";
 
 import { connect } from "react-redux";
-
+import { useNavigate } from "react-router-dom";
 // store.subscribe(() => {
 //   console.log("store changed", store.getState());
 // });
 const SideBar = (props) => {
+  const navigate = useNavigate();
   const [toggleSideBar, setToggleSideBar] = useState(false);
   const sidebarRef = useRef();
   // useEffect(() => {
@@ -22,7 +23,19 @@ const SideBar = (props) => {
   return (
     <aside ref={sidebarRef} className={!toggleSideBar ? "show-sidebar" : ""}>
       <div className="sidebar-Header">
-        <img className="logo" src={logo}></img>
+        <button
+          style={{
+            border: "none",
+            background: "none",
+            margin: "0",
+            padding: "0",
+          }}
+          onClick={() => {
+            navigate("/main-page");
+          }}
+        >
+          <img className="logo" src={logo}></img>
+        </button>
         <button
           onClick={() => {
             setToggleSideBar(!toggleSideBar);
@@ -41,7 +54,7 @@ const SideBar = (props) => {
       </div>
 
       <div className="sidebar-tabs ">
-        <div className="tab active-tab">
+        <div className={`tab ${!toggleSideBar ? "active-tab" : ""}`}>
           <img style={{ height: "20px" }} src={filesIcon}></img>
           <h5 style={{ marginLeft: "30px", fontWeight: "bold" }}>Books</h5>
           {/* <div className="colored-edge"></div> */}

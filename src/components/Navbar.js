@@ -12,10 +12,10 @@ const Navbar = (props) => {
   const navigate = useNavigate();
 
   // const { email, password } = props.data;/
-  console.log(props);
+  // console.log(props);
   // console.log(props.user[0].data.email);
   // console.log(props.toggleSideBar.toggleSideBar);
-  const [toggleDropDown, setToggleDropDown] = useState(false);
+  const [toggleDropDown, setToggleDropDown] = useState(true);
   return (
     <nav className={props.toggleSideBar ? "full-ListBook " : ""}>
       <div className="navbar-header">
@@ -25,6 +25,12 @@ const Navbar = (props) => {
       {/* <div className="dropdown" style={{ height: "50vh" }}> */}
       <div className="dropdown">
         <button
+          style={{
+            background: "none",
+            border: "none",
+            margin: "0",
+            // padding: "0",
+          }}
           onClick={() => {
             setToggleDropDown(!toggleDropDown);
           }}
@@ -48,7 +54,7 @@ const Navbar = (props) => {
                 onClick={() => {
                   props.LogoutUser(props.user);
                   setToggleDropDown(!toggleDropDown);
-                  navigate("/login");
+                  navigate("/");
                 }}
               >
                 logout
