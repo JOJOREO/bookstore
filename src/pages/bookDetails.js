@@ -10,13 +10,13 @@ import store from "../store/store";
 const BookDetails = (props) => {
   // const book = store.getState().book;
   const [book, setBook] = useState({});
-  console.log(store.getState().book);
+  // console.log(store.getState().book);
   // const [toggleDropDown, setToggleDropDown] = useState(true);
   const [toggleToast, setToggleToast] = useState(false);
 
   useEffect(() => {
     setBook(store.getState().book.book);
-    console.log(store.getState().book.book);
+    // console.log(store.getState().book.book);
   }, []);
   useEffect(() => {
     setBook(store.getState().book.book);
@@ -120,7 +120,7 @@ const BookDetails = (props) => {
                   >
                     <div style={{ display: "flex", flexDirection: "column" }}>
                       <h4 style={{ color: "#2596be" }} className="number-pages">
-                        {store.getState().book.book?.volumeInfo.pageCount}
+                        {store.getState().book.book?.volumeInfo?.pageCount}
                       </h4>
                       <p style={{ color: "gray", fontSize: "10px" }}>Pages</p>
                     </div>
@@ -205,25 +205,25 @@ const BookDetails = (props) => {
               >
                 <p style={{ color: "gray" }}>
                   By{" "}
-                  {store.getState().book.book?.volumeInfo.authors?.toString()} |{" "}
-                  {store.getState().book.book?.volumeInfo.publishedDate}
+                  {store.getState().book.book?.volumeInfo?.authors?.toString()}{" "}
+                  | {store.getState().book.book?.volumeInfo?.publishedDate}
                 </p>
                 <h4 style={{ color: "#2596be", marginTop: "0" }}>
                   ${" "}
                   {/* {console.log(
                     store.getState().book.book.saleInfo.listPrice.amount
                   )} */}
-                  {store.getState().book.book?.saleInfo.retailPrice &&
-                    store.getState().book.book?.saleInfo.retailPrice.amount}
+                  {store.getState().book.book?.saleInfo?.retailPrice &&
+                    store.getState().book.book?.saleInfo?.retailPrice.amount}
                 </h4>
                 <p style={{ color: "gray" }}>
                   {`ISBN : ${
                     store.getState().book.book?.volumeInfo
-                      .industryIdentifiers[0].identifier
+                      ?.industryIdentifiers[0].identifier
                   }`}
                 </p>
                 <p style={{ color: "gray" }}>{`version : ${
-                  store.getState().book.book?.volumeInfo.contentVersion
+                  store.getState().book.book?.volumeInfo?.contentVersion
                 }`}</p>
                 <button
                   style={{
@@ -243,7 +243,7 @@ const BookDetails = (props) => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  border: "1px solid green",
+                  // border: "1px solid green",
                   maxWidth: "50vw",
                   maxHeight: "5vh",
                   // padding: "0",
@@ -255,7 +255,7 @@ const BookDetails = (props) => {
                 <p
                   style={{
                     color: "gray",
-                    border: "1px solid red",
+                    // border: "1px solid red",
                     overflow: "none",
                     // maxHeight: "5vh",
                     overflow: "none",

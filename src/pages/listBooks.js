@@ -32,6 +32,9 @@ store.subscribe(() => {
 const handleSubmit = (e) => {
   e.preventDefault();
 };
+// useEffect(() => {
+//   !store.getState().user.data.email ? navigate("/") : "";
+// }, [store.getState().user.data.email]);
 
 const url =
   "https://www.googleapis.com/books/v1/volumes?q=flowers&filter=free-ebooks&key=" +
@@ -48,110 +51,27 @@ const ListBooks = (props) => {
   );
 
   const getData = async () => {
-    // const data2 = window.localStorage.getItem("booksData");
-    // if (data2 !== null) setBooksData(JSON.parse(data2));
-    // else {
     const response = await fetch(url);
     const data = await response.json();
-    // console.log(data.items);
-    // console.log(store.getState().book.deletedArray);
     if (store.getState().book.deletedArray.length != 0) {
       let result = data.items.filter((book, index) => {
-        // console.log(store.getState().book.deletedArray.includes(book.id));
         if (!store.getState().book.deletedArray.includes(book.id)) return book;
       });
-      // console.log(result);
+
       setBooksData({ items: result });
     } else setBooksData(data);
-    // console.log(data);
-    // console.log(booksData);
-    // window.localStorage.setItem("booksData", JSON.stringify(booksData));
     setLoading(false);
     // }
   };
 
   useEffect(() => {
-    // console.log("rerender");
-    // console.log(store.getState().book);
-    // const getData = async () => {
-    //   const response = await fetch(url);
-    //   const data = await response.json();
-    //   console.log(data);
-    //   console.log(booksData);
-    //   setBooksData(data);
-    //   setLoading(false);
-    // };
-
     getData();
-    // props.bookDelete(deleteBook);
   }, []);
 
   useEffect(() => {}, [booksData]);
-
-  // function deleteBookFnc(bookId) {
-  //   fetch(url, { method: "DELETE" }).then((result) => {
-  //     result.json().then((response) => {
-  //       console.log(response);
-  //     });
-  //   });
-  // }
-
-  // const deleteBookFnc = async () => {
-  //   let result = await fetch(url, { method: "DELETE" });
-  //   result = await result.json();
-  //   console.log(result);
-  //   // const data = await response.json();
-  //   // console.log(data);
-  //   // console.log(booksData);
-  //   // setBooksData(data);
-  //   // setLoading(false);
-  // };
-
-  // function deleteBookFnc(bookId) {
-  //   fetch(url, { method: "DELETE" }).then((result) => {
-  //     result.json().then((response) => {
-  //       console.log(response);
-  //     });
-  //   });
-  // }
-
-  // const getDataAgain = () => {
-  //   const getData = async () => {
-  //     const response = await fetch(url);
-  //     const data = await response.json();
-  //     console.log(data);
-  //     setBooksData(data);
-  //     setLoading(false);
-  //   };
-  //   getData();
-  // };
-
-  // useEffect(() => {
-  //   booksData === undefined ? getDataAgain() : "";
-  // }, [booksData]);
-
-  // useEffect(() => {
-  //   console.log(booksData);
-  //   console.log(store.getState().book.book.id);
-  //   console.log(store.getState().book.deletedBookConfirm);
-  //   console.log(deletedBookConfirm);
-
-  //   // deletedBookConfirm
-  //   //   ? deleteFromDetails(
-  //   //       store.getState().book.book.id ? store.getState().book.book.id : ""
-  //   //     )
-  //   //   : "";
-
-  //   // deletedBookConfirm
-  //   //   ? deleteBook(
-  //   //       store.getState().book.book.id ? store.getState().book.book.id : ""
-  //   //     )
-  //   //   : "";
-  // }, [deletedBookConfirm]);
-
   const deleteBook = async (bookId) => {
     props.AddToDeleteArray(bookId);
-    // const response = await fetch(url);
+
     // const data = await response.json();
     // setBooksData(data);
     // setLoading(false);
@@ -161,26 +81,15 @@ const ListBooks = (props) => {
     // console.log(booksData);
     // console.log(data);
     let newBooksArray = [];
-    // newBooksArray = booksData.items.filter((book, index) => {
     newBooksArray = booksData.items.filter((book, index) => {
-      // console.log(book);
-      // console.log(book.id);
-      // console.log(bookId);
       if (
         book.id !== bookId &&
         !store.getState().book.deletedArray.includes(book.id)
       ) {
-        // console.log("normal found");
         return book;
       }
     });
-    // console.log({ items: newBooksArray });
     setBooksData({ items: newBooksArray });
-    // console.log(window.localStorage.getItem("booksData"));
-    // window.localStorage.setItem(
-    //   "booksData",
-    //   JSON.stringify({ items: newBooksArray })
-    // );
   };
 
   const deleteFromDetails = async (bookId) => {
@@ -298,7 +207,13 @@ const ListBooks = (props) => {
                 </button>
               </div>
               <div className="add-book-div">
-                <button type="button" className="btn btn-primary">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    navigate("/add-book");
+                  }}
+                >
                   + Add Book
                 </button>
               </div>
