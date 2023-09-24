@@ -5,6 +5,8 @@ import { toggleSideBarFunction } from "../store/actions";
 import { bookSetter } from "../store/actions";
 import { bookDelete } from "../store/actions";
 import { AddToDeleteArray } from "../store/actions";
+import { AddNewBook } from "../store/actions";
+import { toggleEditFunction } from "../store/actions";
 
 import { connect } from "react-redux";
 import store from "../store/store";
@@ -57,10 +59,62 @@ const ListBooks = (props) => {
       let result = data.items.filter((book, index) => {
         if (!store.getState().book.deletedArray.includes(book.id)) return book;
       });
+      console.log(store.getState().book.newBook);
+      if (store.getState().book.newBook) {
+        console.log(store.getState().book.newBook);
+        result = result.push(store.getState().book.newBook);
+        console.log("new book added");
+        console.log(result);
+      }
 
       setBooksData({ items: result });
-    } else setBooksData(data);
-    setLoading(false);
+    } else {
+      // console.log("else");
+      console.log(store.getState().book.newBook);
+      console.log(store.getState().book.newBook);
+      console.log(store.getState().book.newBook == {});
+      console.log(store.getState().book.newBook != {});
+      console.log(!(store.getState().book.newBook != {}));
+      console.log(JSON.stringify(store.getState().book.newBook) === "{}");
+      console.log(store.getState().book.newBook.id);
+      console.log(store.getState().book.newBook.id != undefined);
+
+      if (JSON.stringify(store.getState().book.newBook) === "{}") {
+        console.log("non new books to add");
+      } else {
+        console.log("new book added");
+        console.log(store.getState().book.newBook);
+        console.log(data);
+        data.items.push(store.getState().book.newBook);
+
+        // data.items.push(
+        //   store.getState().book.newBook != {}
+        //     ? store.getState().book.newBook
+        //     : ""
+        // );
+        // data.items = {...data.items,store.getState().book.newBook}
+        console.log("new book added");
+        console.log(data.items);
+      }
+      // if (store.getState().book.newBook != {}) {
+      //   console.log(store.getState().book.newBook);
+      //   console.log(data);
+      //   store.getState().book.newBook != {}
+      //     ? data.items.push(store.getState().book.newBook)
+      //     : "";
+      //   // data.items.push(
+      //   //   store.getState().book.newBook != {}
+      //   //     ? store.getState().book.newBook
+      //   //     : ""
+      //   // );
+      //   // data.items = {...data.items,store.getState().book.newBook}
+      //   console.log("new book added");
+      //   console.log(data.items);
+      // }
+
+      setBooksData(data);
+      setLoading(false);
+    }
     // }
   };
 
@@ -239,6 +293,12 @@ const ListBooks = (props) => {
                   {booksData.items &&
                     booksData.items
                       .map((book, index) => {
+                        // if (book == {}) {
+                        //   console.log("empty");
+                        // }
+                        // console.log(book);
+                        // console.log(book.volumeInfo);
+                        // console.log(book.volumeInfo.title);
                         // console.log(book);
                         const id = book.id;
                         const {
@@ -288,7 +348,14 @@ const ListBooks = (props) => {
                                   </button>
                                 </div>
                                 <div className=" lock-icon lock2">
-                                  <button type="button">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      props.toggleEditFunction(true);
+                                      props.bookSetter(book);
+                                      navigate("/add-book");
+                                    }}
+                                  >
                                     <img
                                       src={editIcon}
                                       alt="edit"
@@ -338,7 +405,7 @@ const ListBooks = (props) => {
             )}
           </div>
           {booksData.items && (
-            <div className="pagination-nav">
+            <div className="pagination-nav" style={{ height: "10px" }}>
               <nav
                 aria-label="Page navigation example"
                 style={{ background: "none" }}
@@ -438,6 +505,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     AddToDeleteArray: (deletedBookId) => {
       dispatch(AddToDeleteArray(deletedBookId));
+    },
+    AddNewBook: (newBook) => {
+      dispatch(AddNewBook(newBook));
+    },
+    toggleEditFunction: (toggleEdit) => {
+      dispatch(toggleEditFunction(toggleEdit));
     },
   };
 };

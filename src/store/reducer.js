@@ -11,7 +11,7 @@ const userReducer = (state = {}, action) => {
   if (action.type === "Login") {
     return [
       {
-        ...state,
+        // ...state,
         data: {
           email: action.payload.data.email,
           password: action.payload.data.password,
@@ -37,7 +37,13 @@ const userReducer = (state = {}, action) => {
 };
 
 const bookReducer = (
-  state = { book: {}, deletedBookConfirm: false, deletedArray: [] },
+  state = {
+    book: {},
+    deletedBookConfirm: false,
+    deletedArray: [],
+    newBook: {},
+    toggleEdit: false,
+  },
   action
 ) => {
   if (action.type === "setBook") {
@@ -48,20 +54,14 @@ const bookReducer = (
   }
   if (action.type === "AddToDeleteArray") {
     return { ...state, deletedArray: [...state.deletedArray, action.payload] };
+  }
+  if (action.type === "addNewBook") {
+    return { ...state, newBook: action.payload };
+  }
+  if (action.type === "toggleEdit") {
+    return { ...state, toggleEdit: action.payload };
   } else return state;
 };
-
-// const deletedArrayReducer = (
-//   state = { book: {}, deletedArray: e },
-//   action
-// ) => {
-//   if (action.type === "setBook") {
-//     return { ...state, book: action.payload };
-//   }
-//   if (action.type === "deleteBook") {
-//     return { ...state, deletedBookConfirm: action.payload };
-//   } else return state;
-// };
 
 const rootReducer = combineReducers({
   toggleSideBar: toggleSideBarReducer,

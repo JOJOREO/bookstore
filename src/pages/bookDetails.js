@@ -73,7 +73,14 @@ const BookDetails = (props) => {
               >
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <img
-                    src={book?.volumeInfo?.imageLinks?.thumbnail}
+                    src={
+                      book?.volumeInfo?.imageLinks?.thumbnail
+                      // ||
+                      // URL.createObjectURL(
+                      //   store.getState().book.newBook.volumeInfo?.imageLinks
+                      //     ?.thumbnail
+                      // )
+                    }
                     alt={store.getState().book.book?.volumeInfo?.title}
                     style={{
                       width: "120px",

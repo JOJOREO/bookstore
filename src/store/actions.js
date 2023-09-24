@@ -19,3 +19,10 @@ export const bookDelete = (payload) => {
 export const AddToDeleteArray = (payload) => {
   return { type: "AddToDeleteArray", payload };
 };
+export const AddNewBook = (payload) => {
+  return { type: "addNewBook", payload };
+};
+
+export const toggleEditFunction = (payload) => {
+  return { type: "toggleEdit", payload };
+};

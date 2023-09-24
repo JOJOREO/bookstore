@@ -8,6 +8,7 @@ import { toggleSideBarFunction } from "../store/actions";
 import { bookSetter } from "../store/actions";
 import { bookDelete } from "../store/actions";
 import { AddToDeleteArray } from "../store/actions";
+import { AddNewBook } from "../store/actions";
 
 import { connect } from "react-redux";
 import store from "../store/store";
@@ -22,28 +23,95 @@ const AddBook = (props) => {
   const [bookEdition, setBookEdition] = useState("");
   const [bookISBN, setBookISBN] = useState("");
   const [bookReleaseDate, setBookReleaseDate] = useState("");
-  const [bookCoverImage, setBookCoverImage] = useState("");
+  // const [bookCoverImage, setBookCoverImage] = useState("");
   const [bookBrief, setBookBrief] = useState("");
   const [inputType, setInputType] = useState("text");
-
   const [uploadBookCover, setUploadBookCover] = useState();
-  const dateRef = useRef();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (store.getState().book.toggleEdit) {
+      setBookTitle(store.getState().book.book.volumeInfo.title);
+      setBookAuthor(store.getState().book.book.volumeInfo.authors.toString());
+      setCategories(
+        store.getState().book.book.volumeInfo.categories.toString()
+      );
+      console.log(store.getState().book.book.saleInfo.retailPrice);
+      setBookPrice("not available");
+      setBookVersion(store.getState().book.book.volumeInfo.contentVersion);
+      setBookISBN(
+        store.getState().book.book.volumeInfo.industryIdentifiers[0].identifier
+      );
+      setBookReleaseDate(store.getState().book.book.volumeInfo.publishedDate);
+      setUploadBookCover(
+        store.getState().book.book.volumeInfo.imageLinks.thumbnail
+      );
+      setBookBrief(store.getState().book.book.volumeInfo.subtitle);
+    }
+  }, []);
+
+  const handleAddBook = () => {
+    // console.log(bookCoverImage);
+    const newBook = {
+      id: !store.getState().book.toggleEdit
+        ? bookTitle + (Math.floor(Math.random() * 600) + 1)
+        : store.getState().book.book.id,
+      volumeInfo: {
+        authors: [bookAuthor],
+        categories: [categories],
+        contentVersion: bookVersion,
+        imageLinks: { thumbnail: uploadBookCover },
+        industryIdentifiers: [{ identifier: bookISBN }],
+        pageCount: !store.getState().book.book.volumeInfo.pageCount
+          ? Math.floor(Math.random() * 600) + 500
+          : store.getState().book.book.volumeInfo.pageCount, //random number between 500-600 page
+        title: bookTitle,
+        description: bookBrief,
+        publishedDate: bookReleaseDate,
+      },
+      saleInfo: { retailPrice: { amount: bookPrice } },
+      //!store.getState().book.toggleEdit? saleInfo: { retailPrice: { amount: bookPrice } }:{},
+    };
+    props.AddNewBook(newBook);
+    navigate("/main-page");
+  };
+  const fileInputRef = useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   const handleChange = () => {
-    // console.log(dateRef);
-    // console.log(dateRef.type);
-    // dateRef.type = "date";
     setInputType("date");
   };
+
   const handleBlur = () => {
-    // dateRef.type = "text";
-    // console.log(dateRef);
-    // console.log(dateRef.type);
     setInputType("text");
   };
+  const [file, setFile] = useState();
+  const previewImage = (e) => {
+    // console.log(e.target.files);
+    // console.log(e.target.files[0]);
+    // console.log(URL.createObjectURL(e.target.files[0]));
+    setFile(URL.createObjectURL(e.target.files[0]));
+    setUploadBookCover(URL.createObjectURL(e.target.files[0]));
+    // console.log("uploadBookCover", uploadBookCover);
+    // console.log(URL.createObjectURL(e.target.files[0]));
+    // console.log(e.target.files[0]);
+  };
 
-  // useEffect(() => {
-  //   if (!store.getState().user.data?.email) navigate("/");
-  // }, [store.getState().user.data?.email]);
+  // function readURL(input) {
+  //   if (input.files && input.files[0]) {
+  //     var reader = new FileReader();
+  //     reader.onload = function (e) {
+  //       // $("#blah").attr("src", e.target.result).width(150).height(200);
+  //       setBookCoverImage(e.target.result);
+  //     };
+  //     reader.readAsDataURL(input.files[0]);
+  //   }
+  //   console.log(uploadBookCover);
+  // }
 
   return (
     <div
@@ -65,6 +133,7 @@ const AddBook = (props) => {
           // style={{ marginBottom: "15px" }}
           >{`Add Book`}</h1>
           <form
+            onSubmit={handleSubmit}
             className="add-book-form"
             // style={{ width: "100%", backgroundColor: "purple" }}
           >
@@ -397,22 +466,38 @@ const AddBook = (props) => {
                   placeholder="Book Release Date"
                   value={bookReleaseDate}
                   onChange={(e) => {
-                    setBookReleaseDate(e.target.value.toString());
+                    setBookReleaseDate(e.target.value);
                     console.log(bookReleaseDate);
                   }}
+                  // on={console.log("in 2")}
                 ></input>
               </div>
-              <div className="right">
+              <div
+                className="right"
+                // style={{ maxWidth: "50%", maxHeight: "10%" }}
+              >
                 <div style={{ display: "flex", flexDirection: "column" }}>
+                  {/* <img src={uploadBookCover}></img> */}
                   <img
+                    // src={
+                    //   store.getState().book.newBook?.volumeInfo?.imageLinks
+                    //     ?.thumbnail
+                    // }
+                    src={uploadBookCover}
                     // src={book?.volumeInfo?.imageLinks?.thumbnail}
-                    // alt={store.getState().book.book?.volumeInfo?.title}
+                    alt={bookTitle}
                     style={{
                       width: "120px",
                       height: "180px",
                       borderRadius: "10px",
                       objectFit: "cover",
                       boxShadow: " 2px 4px white, 4px 6px gray",
+
+                      // maxWidth: "120px",
+                      // maxHeight: "180px",
+                      // border: "1px solid red",
+
+                      // backgroundSize: "contain",
                       // marginBottom: "15px",
                       // paddingTop: "10px",
                     }}
@@ -431,8 +516,19 @@ const AddBook = (props) => {
                 <p style={{ color: "gray", fontSize: "10px" }}>
                   Best dimensions for book cover image are 128*200
                 </p>
-                <div>
-                  <button
+                <div
+                  style={{
+                    display: "flex",
+                    // flexDirection: "row",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "0",
+                    height: "fit-content",
+                    // border: "1px solid red",
+                  }}
+                >
+                  {/* <button
                     type="button"
                     className="btn-outline-primary btn upload-btn"
                     style={{
@@ -450,19 +546,22 @@ const AddBook = (props) => {
                     }}
                   >
                     Upload Book Cover
-                    <input
-                      type="image"
-                      placeholder="Upload Book Cover"
-                      required
-                      onSubmit={(e) => {
-                        setBookCoverImage(e.target.value);
-                      }}
-                      style={{
-                        visibility: "hidden",
-                        display: "none",
-                      }}
-                    />
-                  </button>
+                  </button> */}
+
+                  <input
+                    ref={fileInputRef}
+                    className="custom-file-input"
+                    // onChange={() => {
+                    //   // console.log("in 1");
+                    //   // console.log(e.target);
+                    //   // console.log(e.target.files[0]);
+                    //   // readURL(e.target);
+                    //   previewImage;
+                    //   // setUploadBookCover(e.target.files[0]);
+                    // }}
+                    onChange={previewImage}
+                    type="file"
+                  ></input>
                   <span
                     className={`${uploadBookCover ? "invisibleSpan" : ""}`}
                     style={{
@@ -470,7 +569,7 @@ const AddBook = (props) => {
                       color: "#E03FD8",
                       position: "relative",
                       top: "-42px",
-                      right: "-131px",
+                      right: "-60px",
                     }}
                   >
                     *
@@ -484,6 +583,7 @@ const AddBook = (props) => {
                     name=""
                     id=""
                     cols="86"
+                    required
                     style={{
                       resize: "none",
                       // width: "100%",
@@ -538,14 +638,15 @@ const AddBook = (props) => {
                       gridTemplateColumns: "auto auto",
                       gridTemplateRows: "auto",
                       gridGap: "10px",
-                      height: "20%",
+                      // height: "20%",
                       position: "absolute",
                       right: "40px",
                       // right: "-226px",
                     }}
                   >
-                    <div>
+                    <div style={{ height: "fit-content" }}>
                       <button
+                        type="button"
                         style={{
                           borderRadius: "5px",
                           color: "black",
@@ -564,9 +665,10 @@ const AddBook = (props) => {
                         Cancel
                       </button>
                     </div>
-                    <div>
+                    <div style={{ height: "fit-content" }}>
                       <button
-                        type="submit"
+                        // type="submit"
+                        type="button"
                         style={{
                           backgroundColor: "#0c4dcc",
                           borderRadius: "5px",
@@ -577,6 +679,7 @@ const AddBook = (props) => {
                           // width: "fit-contents",
                         }}
                         className="btn btn-primary"
+                        onClick={handleAddBook}
                       >
                         Save
                       </button>
@@ -614,6 +717,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     AddToDeleteArray: (deletedBookId) => {
       dispatch(AddToDeleteArray(deletedBookId));
+    },
+    AddNewBook: (newBook) => {
+      dispatch(AddNewBook(newBook));
     },
   };
 };
