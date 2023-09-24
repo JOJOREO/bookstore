@@ -8,6 +8,7 @@ import { toggleSideBarFunction } from "../store/actions";
 import { bookSetter } from "../store/actions";
 import { bookDelete } from "../store/actions";
 import { AddToDeleteArray } from "../store/actions";
+import { AddToEditArray } from "../store/actions";
 import { AddNewBook } from "../store/actions";
 
 import { connect } from "react-redux";
@@ -37,7 +38,7 @@ const AddBook = (props) => {
       setCategories(
         store.getState().book.book.volumeInfo.categories.toString()
       );
-      console.log(store.getState().book.book.saleInfo.retailPrice);
+      // console.log(store.getState().book.book.saleInfo.retailPrice);
       setBookPrice("not available");
       setBookVersion(store.getState().book.book.volumeInfo.contentVersion);
       setBookISBN(
@@ -47,7 +48,11 @@ const AddBook = (props) => {
       setUploadBookCover(
         store.getState().book.book.volumeInfo.imageLinks.thumbnail
       );
-      setBookBrief(store.getState().book.book.volumeInfo.subtitle);
+      setBookBrief(
+        store.getState().book.book.volumeInfo.subtitle
+          ? store.getState().book.book.volumeInfo.subtitle
+          : ""
+      );
     }
   }, []);
 
@@ -70,10 +75,14 @@ const AddBook = (props) => {
         description: bookBrief,
         publishedDate: bookReleaseDate,
       },
-      saleInfo: { retailPrice: { amount: bookPrice } },
+      saleInfo: !store.getState().book.toggleEdit
+        ? { retailPrice: { amount: bookPrice } }
+        : {},
       //!store.getState().book.toggleEdit? saleInfo: { retailPrice: { amount: bookPrice } }:{},
     };
+    console.log("newBook", newBook);
     props.AddNewBook(newBook);
+    // props.AddToEditArray(store.getState().book.newBook);
     navigate("/main-page");
   };
   const fileInputRef = useRef();
@@ -131,7 +140,9 @@ const AddBook = (props) => {
         >
           <h1
           // style={{ marginBottom: "15px" }}
-          >{`Add Book`}</h1>
+          >{`${
+            store.getState().book.toggleEdit ? "Edit Book" : "Add Book"
+          }`}</h1>
           <form
             onSubmit={handleSubmit}
             className="add-book-form"
@@ -720,6 +731,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     AddNewBook: (newBook) => {
       dispatch(AddNewBook(newBook));
+    },
+    AddToEditArray: (deletedBookId) => {
+      dispatch(AddToEditArray(deletedBookId));
     },
   };
 };

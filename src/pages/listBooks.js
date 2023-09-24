@@ -7,6 +7,7 @@ import { bookDelete } from "../store/actions";
 import { AddToDeleteArray } from "../store/actions";
 import { AddNewBook } from "../store/actions";
 import { toggleEditFunction } from "../store/actions";
+import { AddToEditArray } from "../store/actions";
 
 import { connect } from "react-redux";
 import store from "../store/store";
@@ -67,53 +68,157 @@ const ListBooks = (props) => {
         console.log(result);
       }
 
+      // test
+      console.log("case 1");
+      if (JSON.stringify(store.getState().book.newBook) === "{}") {
+        console.log("no new books to add");
+      } else {
+        // console.log("new book added");
+        // console.log(store.getState().book.newBook);
+        // console.log(data);
+        if (!store.getState().book.toggleEdit) {
+          data.items.push(store.getState().book.newBook);
+          console.log("new book added");
+          // props.toggleEditFunction(false);
+        }
+        // console.log(data.items);
+      }
+
+      if (store.getState().book.toggleEdit) {
+        console.log("edited book ");
+        console.log(store.getState().book.newBook);
+        console.log(store.getState().book.newBook.id);
+        data.items.filter((book, index) => {
+          if (book.id === store.getState().book.newBook.id) {
+            console.log("edited book found");
+            console.log(
+              "edited book authors",
+              store.getState().book.newBook.volumeInfo.authors.toString()
+            );
+            // console.log("edited book found");
+            data.items.splice(index, 1, store.getState().book.newBook);
+            // props.toggleEditFunction(false);
+            // data.items.splice(index, 0, store.getState().book.newBook);
+            // return store.getState().book.newBook;
+          } else return book;
+        });
+      }
+
+      console.log(store.getState().book.editArray.length);
+
+      let idsArray = [];
+      for (let i = 0; i < store.getState().book.editArray.length; i++) {
+        idsArray.push(store.getState().book.editArray[i].id);
+      }
+      console.log(idsArray);
+
+      if (store.getState().book.editArray.length != 0) {
+        // let newBooksArray = [];
+        // newBooksArray = data.items.filter((book, index) => {
+        data.items.filter((book, index) => {
+          console.log(store.getState().book.editArray[index]);
+          console.log(store.getState().book.editArray);
+          // console.log(store.getState().book.editArray[index].id);
+          console.log(book.id);
+          // console.log(book.id === store.getState().book.editArray[index].id);
+          // console.log(store.getState().book.editArray.includes(book.id));
+          if (idsArray.includes(book.id)) {
+            console.log(book.id);
+            // return store.getState().book.editArray[index];
+            for (let i = 0; i < store.getState().book.editArray.length; i++) {
+              // idsArray.push(store.getState().book.editArray[i].id);
+              if (store.getState().book.editArray[i].id === book.id)
+                data.items.splice(index, 1, store.getState().book.editArray[i]);
+            }
+          }
+        });
+        // setBooksData({ items: newBooksArray });
+        // return;
+      }
+
       setBooksData({ items: result });
     } else {
       // console.log("else");
-      console.log(store.getState().book.newBook);
-      console.log(store.getState().book.newBook);
-      console.log(store.getState().book.newBook == {});
-      console.log(store.getState().book.newBook != {});
-      console.log(!(store.getState().book.newBook != {}));
-      console.log(JSON.stringify(store.getState().book.newBook) === "{}");
-      console.log(store.getState().book.newBook.id);
-      console.log(store.getState().book.newBook.id != undefined);
-
+      // console.log(store.getState().book.newBook);
+      // console.log(store.getState().book.newBook);
+      // console.log(store.getState().book.newBook == {});
+      // console.log(store.getState().book.newBook != {});
+      // console.log(!(store.getState().book.newBook != {}));
+      // console.log(JSON.stringify(store.getState().book.newBook) === "{}");
+      // console.log(store.getState().book.newBook.id);
+      // console.log(store.getState().book.newBook.id != undefined);
+      console.log("case 2");
       if (JSON.stringify(store.getState().book.newBook) === "{}") {
-        console.log("non new books to add");
+        console.log("no new books to add");
       } else {
-        console.log("new book added");
-        console.log(store.getState().book.newBook);
-        console.log(data);
-        data.items.push(store.getState().book.newBook);
-
-        // data.items.push(
-        //   store.getState().book.newBook != {}
-        //     ? store.getState().book.newBook
-        //     : ""
-        // );
-        // data.items = {...data.items,store.getState().book.newBook}
-        console.log("new book added");
-        console.log(data.items);
+        // console.log("new book added");
+        // console.log(store.getState().book.newBook);
+        // console.log(data);
+        if (!store.getState().book.toggleEdit) {
+          data.items.push(store.getState().book.newBook);
+          console.log("new book added");
+        }
+        // console.log(data.items);
       }
-      // if (store.getState().book.newBook != {}) {
-      //   console.log(store.getState().book.newBook);
-      //   console.log(data);
-      //   store.getState().book.newBook != {}
-      //     ? data.items.push(store.getState().book.newBook)
-      //     : "";
-      //   // data.items.push(
-      //   //   store.getState().book.newBook != {}
-      //   //     ? store.getState().book.newBook
-      //   //     : ""
-      //   // );
-      //   // data.items = {...data.items,store.getState().book.newBook}
-      //   console.log("new book added");
-      //   console.log(data.items);
-      // }
+
+      if (store.getState().book.toggleEdit) {
+        console.log("edited book ");
+        console.log(store.getState().book.newBook);
+        console.log(store.getState().book.newBook.id);
+        data.items.filter((book, index) => {
+          if (book.id === store.getState().book.newBook.id) {
+            console.log("edited book found");
+            console.log(
+              "edited book authors",
+              store.getState().book.newBook.volumeInfo.authors.toString()
+            );
+            // console.log("edited book found");
+            // data.items.splice(index, 0);
+            data.items.splice(index, 1, store.getState().book.newBook);
+
+            props.AddToEditArray(store.getState().book.newBook);
+
+            // data.items.splice(index, 0, store.getState().book.newBook);
+            // props.toggleEditFunction(false);
+            // return store.getState().book.newBook;
+          } else return book;
+        });
+      }
+      console.log(store.getState().book.editArray.length);
+
+      let idsArray = [];
+      for (let i = 0; i < store.getState().book.editArray.length; i++) {
+        idsArray.push(store.getState().book.editArray[i].id);
+      }
+      console.log(idsArray);
+
+      if (store.getState().book.editArray.length != 0) {
+        // let newBooksArray = [];
+        // newBooksArray = data.items.filter((book, index) => {
+        data.items.filter((book, index) => {
+          console.log(store.getState().book.editArray[index]);
+          console.log(store.getState().book.editArray);
+          // console.log(store.getState().book.editArray[index].id);
+          console.log(book.id);
+          // console.log(book.id === store.getState().book.editArray[index].id);
+          // console.log(store.getState().book.editArray.includes(book.id));
+          if (idsArray.includes(book.id)) {
+            console.log(book.id);
+            // return store.getState().book.editArray[index];
+            for (let i = 0; i < store.getState().book.editArray.length; i++) {
+              // idsArray.push(store.getState().book.editArray[i].id);
+              if (store.getState().book.editArray[i].id === book.id)
+                data.items.splice(index, 1, store.getState().book.editArray[i]);
+            }
+          }
+        });
+        // setBooksData({ items: newBooksArray });
+        // return;
+      }
 
       setBooksData(data);
       setLoading(false);
+      // props.toggleEditFunction(false);
     }
     // }
   };
@@ -266,6 +371,8 @@ const ListBooks = (props) => {
                   className="btn btn-primary"
                   onClick={() => {
                     navigate("/add-book");
+                    props.toggleEditFunction(false);
+                    // store.getState().book.toggleEdit = false;
                   }}
                 >
                   + Add Book
@@ -511,6 +618,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     toggleEditFunction: (toggleEdit) => {
       dispatch(toggleEditFunction(toggleEdit));
+    },
+    AddToEditArray: (editedBook) => {
+      dispatch(AddToEditArray(editedBook));
     },
   };
 };

@@ -43,6 +43,7 @@ const bookReducer = (
     deletedArray: [],
     newBook: {},
     toggleEdit: false,
+    editArray: [],
   },
   action
 ) => {
@@ -55,11 +56,15 @@ const bookReducer = (
   if (action.type === "AddToDeleteArray") {
     return { ...state, deletedArray: [...state.deletedArray, action.payload] };
   }
+
   if (action.type === "addNewBook") {
     return { ...state, newBook: action.payload };
   }
   if (action.type === "toggleEdit") {
     return { ...state, toggleEdit: action.payload };
+  }
+  if (action.type === "AddToEditArray") {
+    return { ...state, editArray: [...state.editArray, action.payload] };
   } else return state;
 };
 

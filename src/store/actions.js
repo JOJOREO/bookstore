@@ -26,3 +26,6 @@ export const AddNewBook = (payload) => {
 export const toggleEditFunction = (payload) => {
   return { type: "toggleEdit", payload };
 };
+export const AddToEditArray = (payload) => {
+  return { type: "AddToEditArray", payload };
+};
