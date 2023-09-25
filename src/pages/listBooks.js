@@ -55,40 +55,35 @@ const ListBooks = (props) => {
 
   const getData = async () => {
     const response = await fetch(url);
-    const data = await response.json();
+    let data = await response.json();
+    console.log(
+      "store.getState().book.deletedArray.length = ",
+      store.getState().book.deletedArray.length
+    );
+    console.log(
+      "store.getState().book.deletedArray.length != 0 true / false = ",
+      store.getState().book.deletedArray.length != 0
+    );
+
     if (store.getState().book.deletedArray.length != 0) {
+      //deleted book or books
+
       let result = data.items.filter((book, index) => {
+        // console.log(
+        //   "store.getState().book.deletedArray.includes(book.id)",
+        //   store.getState().book.deletedArray.includes(book.id)
+        // );
         if (!store.getState().book.deletedArray.includes(book.id)) return book;
       });
-      console.log(store.getState().book.newBook);
-      if (store.getState().book.newBook) {
-        console.log(store.getState().book.newBook);
-        result = result.push(store.getState().book.newBook);
-        console.log("new book added");
-        console.log(result);
-      }
+      //end of // deleted book or books
 
-      // test
-      console.log("case 1");
-      if (JSON.stringify(store.getState().book.newBook) === "{}") {
-        console.log("no new books to add");
-      } else {
-        // console.log("new book added");
-        // console.log(store.getState().book.newBook);
-        // console.log(data);
-        if (!store.getState().book.toggleEdit) {
-          data.items.push(store.getState().book.newBook);
-          console.log("new book added");
-          // props.toggleEditFunction(false);
-        }
-        // console.log(data.items);
-      }
+      //edited book back
 
       if (store.getState().book.toggleEdit) {
         console.log("edited book ");
         console.log(store.getState().book.newBook);
         console.log(store.getState().book.newBook.id);
-        data.items.filter((book, index) => {
+        result.filter((book, index) => {
           if (book.id === store.getState().book.newBook.id) {
             console.log("edited book found");
             console.log(
@@ -96,47 +91,170 @@ const ListBooks = (props) => {
               store.getState().book.newBook.volumeInfo.authors.toString()
             );
             // console.log("edited book found");
-            data.items.splice(index, 1, store.getState().book.newBook);
+            result.splice(index, 1, store.getState().book.newBook);
+            props.AddToEditArray(store.getState().book.newBook);
             // props.toggleEditFunction(false);
             // data.items.splice(index, 0, store.getState().book.newBook);
             // return store.getState().book.newBook;
           } else return book;
         });
+        props.toggleEditFunction(false);
+        props.AddNewBook({});
       }
 
-      console.log(store.getState().book.editArray.length);
+      //end of // edited book back
 
+      // maintain multiple edited books
+
+      console.log(
+        "store.getState().book.editArray.length = ",
+        store.getState().book.editArray.length
+      );
       let idsArray = [];
       for (let i = 0; i < store.getState().book.editArray.length; i++) {
         idsArray.push(store.getState().book.editArray[i].id);
       }
-      console.log(idsArray);
+      // console.log(idsArray);
 
       if (store.getState().book.editArray.length != 0) {
         // let newBooksArray = [];
         // newBooksArray = data.items.filter((book, index) => {
-        data.items.filter((book, index) => {
-          console.log(store.getState().book.editArray[index]);
-          console.log(store.getState().book.editArray);
+        result.filter((book, index) => {
+          // console.log(store.getState().book.editArray[index]);
+          // console.log(store.getState().book.editArray);
           // console.log(store.getState().book.editArray[index].id);
-          console.log(book.id);
+          // console.log(book.id);
           // console.log(book.id === store.getState().book.editArray[index].id);
           // console.log(store.getState().book.editArray.includes(book.id));
           if (idsArray.includes(book.id)) {
-            console.log(book.id);
+            // console.log(book.id);
             // return store.getState().book.editArray[index];
             for (let i = 0; i < store.getState().book.editArray.length; i++) {
               // idsArray.push(store.getState().book.editArray[i].id);
               if (store.getState().book.editArray[i].id === book.id)
-                data.items.splice(index, 1, store.getState().book.editArray[i]);
+                result.splice(index, 1, store.getState().book.editArray[i]);
             }
           }
         });
         // setBooksData({ items: newBooksArray });
         // return;
       }
+      //end of // maintain multiple edited books
+
+      //add new book
+
+      console.log(
+        "store.getState().book.newBook = ",
+        store.getState().book.newBook
+      );
+      console.log(
+        "JSON.stringify(store.getState().book.newBook) !== {}",
+        JSON.stringify(store.getState().book.newBook) !== "{}"
+      );
+      if (
+        JSON.stringify(store.getState().book.newBook) !== "{}" &&
+        store.getState().book.toggleEdit == false
+      ) {
+        // console.log(store.getState().book.newBook);
+        // result = result.push(store.getState().book.newBook);
+        result.push(store.getState().book.newBook);
+        console.log("new book added");
+        // console.log(result);
+      }
+      // setBooksData({ items: result });
+      // data = booksData;
+      // console.log(result);
+
+      //end of //add new book
 
       setBooksData({ items: result });
+      setLoading(false);
+
+      // console.log(booksData);
+
+      // test
+
+      //fully new book to add
+
+      console.log("case 1");
+      // if (JSON.stringify(store.getState().book.newBook) === "{}") {
+      //   console.log("no new books to add");
+      // } else {
+      //   // console.log("new book added");
+      //   // console.log(store.getState().book.newBook);
+      //   // console.log(data);
+      //   if (!store.getState().book.toggleEdit) {
+      //     data.items.push(store.getState().book.newBook);
+      //     console.log("new book added");
+      //     // props.toggleEditFunction(false);
+      //   }
+      //   // console.log(data.items);
+      // }
+
+      // //end of // fully new book to add
+
+      // //edited book back
+
+      // if (store.getState().book.toggleEdit) {
+      //   console.log("edited book ");
+      //   console.log(store.getState().book.newBook);
+      //   console.log(store.getState().book.newBook.id);
+      //   data.items.filter((book, index) => {
+      //     if (book.id === store.getState().book.newBook.id) {
+      //       console.log("edited book found");
+      //       console.log(
+      //         "edited book authors",
+      //         store.getState().book.newBook.volumeInfo.authors.toString()
+      //       );
+      //       // console.log("edited book found");
+      //       data.items.splice(index, 1, store.getState().book.newBook);
+      //       // props.toggleEditFunction(false);
+      //       // data.items.splice(index, 0, store.getState().book.newBook);
+      //       // return store.getState().book.newBook;
+      //     } else return book;
+      //   });
+      // }
+
+      // //end of // edited book back
+
+      // // maintain multiple edited books
+
+      // console.log(store.getState().book.editArray.length);
+      // let idsArray = [];
+      // for (let i = 0; i < store.getState().book.editArray.length; i++) {
+      //   idsArray.push(store.getState().book.editArray[i].id);
+      // }
+      // // console.log(idsArray);
+
+      // if (store.getState().book.editArray.length != 0) {
+      //   // let newBooksArray = [];
+      //   // newBooksArray = data.items.filter((book, index) => {
+      //   data.items.filter((book, index) => {
+      //     console.log(store.getState().book.editArray[index]);
+      //     console.log(store.getState().book.editArray);
+      //     // console.log(store.getState().book.editArray[index].id);
+      //     console.log(book.id);
+      //     // console.log(book.id === store.getState().book.editArray[index].id);
+      //     // console.log(store.getState().book.editArray.includes(book.id));
+      //     if (idsArray.includes(book.id)) {
+      //       console.log(book.id);
+      //       // return store.getState().book.editArray[index];
+      //       for (let i = 0; i < store.getState().book.editArray.length; i++) {
+      //         // idsArray.push(store.getState().book.editArray[i].id);
+      //         if (store.getState().book.editArray[i].id === book.id)
+      //           data.items.splice(index, 1, store.getState().book.editArray[i]);
+      //       }
+      //     }
+      //   });
+      //   // setBooksData({ items: newBooksArray });
+      //   // return;
+      // }
+      // //end of // maintain multiple edited books
+
+      // console.log({ items: result });
+      // setBooksData({ items: result });
+
+      // setBooksData(data);
     } else {
       // console.log("else");
       // console.log(store.getState().book.newBook);
@@ -183,27 +301,29 @@ const ListBooks = (props) => {
             // return store.getState().book.newBook;
           } else return book;
         });
+        props.toggleEditFunction(false);
+        props.AddNewBook({});
       }
-      console.log(store.getState().book.editArray.length);
+      // console.log(store.getState().book.editArray.length);
 
       let idsArray = [];
       for (let i = 0; i < store.getState().book.editArray.length; i++) {
         idsArray.push(store.getState().book.editArray[i].id);
       }
-      console.log(idsArray);
+      // console.log(idsArray);
 
       if (store.getState().book.editArray.length != 0) {
         // let newBooksArray = [];
         // newBooksArray = data.items.filter((book, index) => {
         data.items.filter((book, index) => {
-          console.log(store.getState().book.editArray[index]);
-          console.log(store.getState().book.editArray);
+          // console.log(store.getState().book.editArray[index]);
+          // console.log(store.getState().book.editArray);
           // console.log(store.getState().book.editArray[index].id);
-          console.log(book.id);
+          // console.log(book.id);
           // console.log(book.id === store.getState().book.editArray[index].id);
           // console.log(store.getState().book.editArray.includes(book.id));
           if (idsArray.includes(book.id)) {
-            console.log(book.id);
+            // console.log(book.id);
             // return store.getState().book.editArray[index];
             for (let i = 0; i < store.getState().book.editArray.length; i++) {
               // idsArray.push(store.getState().book.editArray[i].id);
@@ -251,35 +371,35 @@ const ListBooks = (props) => {
     setBooksData({ items: newBooksArray });
   };
 
-  const deleteFromDetails = async (bookId) => {
-    props.AddToDeleteArray(bookId);
-    const response = await fetch(url);
-    const data = await response.json();
-    // setBooksData(data);
-    // setLoading(false);
+  // const deleteFromDetails = async (bookId) => {
+  //   props.AddToDeleteArray(bookId);
+  //   const response = await fetch(url);
+  //   const data = await response.json();
+  //   // setBooksData(data);
+  //   // setLoading(false);
 
-    // getData();
-    // console.log(bookId);
-    // console.log(booksData);
-    // console.log(data);
-    let newBooksArray = [];
-    // newBooksArray = booksData.items.filter((book, index) => {
-    newBooksArray = data.items.filter((book, index) => {
-      // console.log(book);
-      // console.log(book.id);
-      // console.log(bookId);
-      console.log(!store.getState().book.deletedArray.includes(book.id));
-      if (
-        book.id !== bookId ||
-        !store.getState().book.deletedArray.includes(book.id)
-      ) {
-        console.log("normal found");
-        return book;
-      }
-    });
-    console.log({ items: newBooksArray });
-    setBooksData({ items: newBooksArray });
-  };
+  //   // getData();
+  //   // console.log(bookId);
+  //   // console.log(booksData);
+  //   // console.log(data);
+  //   let newBooksArray = [];
+  //   // newBooksArray = booksData.items.filter((book, index) => {
+  //   newBooksArray = data.items.filter((book, index) => {
+  //     // console.log(book);
+  //     // console.log(book.id);
+  //     // console.log(bookId);
+  //     console.log(!store.getState().book.deletedArray.includes(book.id));
+  //     if (
+  //       book.id !== bookId ||
+  //       !store.getState().book.deletedArray.includes(book.id)
+  //     ) {
+  //       console.log("normal found");
+  //       return book;
+  //     }
+  //   });
+  //   console.log({ items: newBooksArray });
+  //   setBooksData({ items: newBooksArray });
+  // };
 
   // props.bookDelete(deleteBook);
 
