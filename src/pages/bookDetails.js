@@ -4,10 +4,15 @@ import SideBar from "../components/sideBar";
 import Navbar from "../components/Navbar";
 import libraryImage from "../images/libraryImg.png";
 import { toggleSideBarFunction } from "../store/actions";
+import { toggleEditFunction } from "../store/actions";
+import { bookSetter } from "../store/actions";
 import bookmarkIcon from "../images/352230_bookmark_icon.png";
 import Toast from "../components/toast";
 import store from "../store/store";
+
+import { useNavigate } from "react-router-dom";
 const BookDetails = (props) => {
+  const navigate = useNavigate();
   // const book = store.getState().book;
   const [book, setBook] = useState({});
   // console.log(store.getState().book);
@@ -174,8 +179,14 @@ const BookDetails = (props) => {
                 </div>
                 <div>
                   <button
+                    type="button"
                     style={{ backgroundColor: "#0c4dcc", borderRadius: "5px" }}
                     className="btn btn-primary"
+                    onClick={() => {
+                      props.toggleEditFunction(true);
+                      props.bookSetter(book);
+                      navigate("/add-book");
+                    }}
                   >
                     Edit
                   </button>
@@ -303,6 +314,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     toggleSideBarFunction: (toggleSideBar) =>
       dispatch(toggleSideBarFunction(toggleSideBar)),
+    toggleEditFunction: (toggleEdit) => {
+      dispatch(toggleEditFunction(toggleEdit));
+    },
+    bookSetter: (book) => {
+      dispatch(bookSetter(book));
+    },
   };
 };
 // console.log("initial store ", store.getState());
