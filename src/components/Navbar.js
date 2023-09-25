@@ -7,9 +7,20 @@ import { LoginUser } from "../store/actions";
 import { LogoutUser } from "../store/actions";
 
 import { useNavigate } from "react-router-dom";
+import store from "../store/store";
 
 const Navbar = (props) => {
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   console.log(store.getState().user[0].data.email);
+  // }, []);
+  if (
+    store.getState().user[0]?.data.email == "" ||
+    store.getState().user[0]?.data.email == undefined
+  ) {
+    navigate("/");
+  }
 
   // const { email, password } = props.data;/
   // console.log(props);
@@ -45,6 +56,7 @@ const Navbar = (props) => {
             <li>
               {/* {props.user.data.email && <p>exist</p>} */}
               {/* {props.user ? `${props.user.data.email}` : "none"} */}
+
               {props.user[0] && props.user[0].loginState
                 ? props.user[0].data.email
                 : "Anonymous user"}
