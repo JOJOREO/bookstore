@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import SideBar from "../components/sideBar";
 import Navbar from "../components/Navbar";
+import Toast from "../components/toast";
+
 import { toggleSideBarFunction } from "../store/actions";
 import { bookSetter } from "../store/actions";
 import { bookDelete } from "../store/actions";
@@ -22,6 +24,7 @@ import deleteIcon from "../images/352303_delete_icon.png";
 import deleteIconHover from "../images/352303_delete_icon (1).png";
 
 import { useNavigate } from "react-router-dom";
+import { Dialog } from "@material-ui/core";
 
 console.log("initial store ", store.getState());
 
@@ -53,17 +56,30 @@ const ListBooks = (props) => {
     store.getState().book.deletedBookConfirm
   );
 
+  const [toggleToast, setToggleToast] = useState(false);
+  const [confirmFromToast, setConfirmFromToast] = useState(false);
+
+  // useEffect(() => {
+  //   deleteBook(book.id);
+  // }, [confirmFromToast]);
+
+  const toastCallback = (reply) => {
+    setConfirmFromToast(reply);
+  };
+
+  const localToast = () => {};
+
   const getData = async () => {
     const response = await fetch(url);
     let data = await response.json();
-    console.log(
-      "store.getState().book.deletedArray.length = ",
-      store.getState().book.deletedArray.length
-    );
-    console.log(
-      "store.getState().book.deletedArray.length != 0 true / false = ",
-      store.getState().book.deletedArray.length != 0
-    );
+    // console.log(
+    //   "store.getState().book.deletedArray.length = ",
+    //   store.getState().book.deletedArray.length
+    // );
+    // console.log(
+    //   "store.getState().book.deletedArray.length != 0 true / false = ",
+    //   store.getState().book.deletedArray.length != 0
+    // );
 
     if (store.getState().book.deletedArray.length != 0) {
       //deleted book or books
@@ -143,14 +159,14 @@ const ListBooks = (props) => {
 
       //add new book
 
-      console.log(
-        "store.getState().book.newBook = ",
-        store.getState().book.newBook
-      );
-      console.log(
-        "JSON.stringify(store.getState().book.newBook) !== {}",
-        JSON.stringify(store.getState().book.newBook) !== "{}"
-      );
+      // console.log(
+      //   "store.getState().book.newBook = ",
+      //   store.getState().book.newBook
+      // );
+      // console.log(
+      //   "JSON.stringify(store.getState().book.newBook) !== {}",
+      //   JSON.stringify(store.getState().book.newBook) !== "{}"
+      // );
       if (
         JSON.stringify(store.getState().book.newBook) !== "{}" &&
         store.getState().book.toggleEdit == false
@@ -265,9 +281,9 @@ const ListBooks = (props) => {
       // console.log(JSON.stringify(store.getState().book.newBook) === "{}");
       // console.log(store.getState().book.newBook.id);
       // console.log(store.getState().book.newBook.id != undefined);
-      console.log("case 2");
+      // console.log("case 2");
       if (JSON.stringify(store.getState().book.newBook) === "{}") {
-        console.log("no new books to add");
+        // console.log("no new books to add");
       } else {
         // console.log("new book added");
         // console.log(store.getState().book.newBook);
@@ -346,6 +362,10 @@ const ListBooks = (props) => {
   useEffect(() => {
     getData();
   }, []);
+  useEffect(() => {
+    getData();
+    // navigate("/main-page");
+  }, [store.getState().book.deletedArray]);
 
   useEffect(() => {}, [booksData]);
   const deleteBook = async (bookId) => {
@@ -440,7 +460,7 @@ const ListBooks = (props) => {
     // console.log("result ", result);
     // console.log("pageIndex ", pageIndex);
     setBooksData({ items: result });
-    setSearchWord("");
+    // setSearchWord("");
   };
 
   return (
@@ -602,7 +622,58 @@ const ListBooks = (props) => {
                                     type="button"
                                     onClick={() => {
                                       // deleteBook(book.id);
-                                      deleteBook(book.id);
+                                      // console.log(
+                                      //   store.getState().book.deletedBookConfirm
+                                      // );
+                                      props.bookSetter(book);
+                                      // console.log(confirmFromToast);
+                                      // console.log(store.getState().book);
+                                      setToggleToast(!toggleToast);
+                                      // if (confirmFromToast) {
+                                      if (confirmFromToast) {
+                                        // deleteBook(book.id);
+                                        // navigate("/main-page");
+                                        setConfirmFromToast(false);
+                                      }
+                                      // console.log(
+                                      //   store.getState().book.deletedBookConfirm
+                                      // );
+                                      // console.log(
+                                      //   "confirmFromToast",
+                                      //   confirmFromToast
+                                      // );
+                                      // if (confirmFromToast) {
+                                      //   AddToDeleteArray(book.id);
+                                      //   props.bookSetter(book);
+                                      //   deleteBook(book.id);
+                                      // }
+                                      // dialog(
+                                      //   "are you sure you want to delete?"
+                                      // );
+                                      // console.log(
+                                      //   store.getState().book.deletedBookConfirm
+                                      // );
+                                      // props.AddToDeleteArray(book.id);
+                                      // const deletion = async () => {
+                                      //   const cond = await store.getState().book
+                                      //     .deletedBookConfirm;
+                                      //   if (cond) {
+                                      //     deleteBook(book.id);
+                                      //   }
+                                      //   deletion();
+                                      //   // console.log(
+                                      //   //   "delete book confirm",
+                                      //   //   store.getState().book
+                                      //   //     .deletedBookConfirm
+                                      //   // );
+                                      //   // // props.AddToDeleteArray(book.id);
+                                      // };
+                                      // if (toggleToast) {
+                                      //   props.bookDelete(true);
+                                      //   props.bookSetter(book);
+                                      //   // deleteBook(book.id);
+                                      // }
+                                      // deleteBook(book.id);
                                     }}
                                   >
                                     <img
@@ -707,6 +778,11 @@ const ListBooks = (props) => {
             </div>
           )}
         </div>
+        <Toast
+          toastCallback={toastCallback}
+          toggleToast={toggleToast}
+          setToggleToast={setToggleToast}
+        ></Toast>
       </div>
     </div>
   );

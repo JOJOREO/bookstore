@@ -83,13 +83,13 @@ const LoginPage = (props) => {
           <a style={{ display: "block", margin: "4% 0 " }}>Forgot Password?</a>
           <button
             onClick={(e) => {}}
-            style={{
-              width: "9vw",
-              height: "3vw",
-              borderRadius: "12px",
-              backgroundColor: "#0a4cd3",
-            }}
-            className="btn btn-primary submitButton"
+            // style={{
+            //   width: "9vw",
+            //   height: "3vw",
+            //   borderRadius: "12px",
+            //   backgroundColor: "#0a4cd3",
+            // }}
+            className="submitButton btn btn-primary "
           >
             Sign In
           </button>

@@ -12,15 +12,27 @@ import store from "../store/store";
 const Navbar = (props) => {
   const navigate = useNavigate();
 
+  // const [userEmail, setUserEmail] = useState(
+  //   store.getState().user[0]?.data.email
+  // );
+
+  // useEffect(() => {
+  //   if (
+  //     store.getState().user[0]?.data.email == "" ||
+  //     store.getState().user[0]?.data.email == undefined
+  //   ) {
+  //     navigate("/");
+  //   }
+  // }, [userEmail]);
   // useEffect(() => {
   //   console.log(store.getState().user[0].data.email);
   // }, []);
-  if (
-    store.getState().user[0]?.data.email == "" ||
-    store.getState().user[0]?.data.email == undefined
-  ) {
-    navigate("/");
-  }
+  // if (
+  //   store.getState().user[0]?.data.email == "" ||
+  //   store.getState().user[0]?.data.email == undefined
+  // ) {
+  //   navigate("/");
+  // }
 
   // const { email, password } = props.data;/
   // console.log(props);

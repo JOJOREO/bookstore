@@ -10,13 +10,15 @@ import { connect } from "react-redux";
 import store from "../store/store";
 import { AddToDeleteArray } from "../store/actions";
 import { bookDelete } from "../store/actions";
+import { toggleSideBarFunction } from "../store/actions";
+import { bookSetter } from "../store/actions";
 import { redirect } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 
 const Toast = (props) => {
   const [open, setOpen] = React.useState(false);
-  console.log("");
+  // console.log("");
   const navigate = useNavigate();
   const handleClickToOpen = () => {
     setOpen(true);
@@ -26,7 +28,10 @@ const Toast = (props) => {
   //   }
   useEffect(() => {
     // console.log("inside toast", props.toggleToast);
-    props.toggleToast ? handleClickToOpen() : "";
+    // props.toggleToast ? handleClickToOpen() : "";
+    if (props.toggleToast) {
+      handleClickToOpen();
+    }
     // props.setToggleToast(!props.toggleToast);
 
     // console.log("open", open);
@@ -88,11 +93,18 @@ const Toast = (props) => {
           <Button
             className="btn btn-danger"
             onClick={() => {
+              props.toastCallback(true);
               // console.log(props.bookDelete);
               // console.log(store.getState().book.deletedBookConfirm);
-              // console.log(store.getState().book.book.id);
+              console.log(store.getState().book.book.id);
               props.bookDelete(true);
               props.AddToDeleteArray(store.getState().book.book.id);
+              // console.log(
+              //   "delete book confirm",
+              //   store.getState().book.deletedBookConfirm
+              // );
+
+              // console.log("deleted array", store.getState().book.deletedArray);
               handleToClose();
               navigate("/main-page");
 

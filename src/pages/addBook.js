@@ -29,6 +29,18 @@ const AddBook = (props) => {
   const [inputType, setInputType] = useState("text");
   const [uploadBookCover, setUploadBookCover] = useState();
 
+  // const [error, setError] = useState(false);
+
+  const [bookTitleError, setBookTitleError] = useState("");
+  const [bookAuthorError, setBookAuthorError] = useState("");
+  const [categoriesError, setCategoriesError] = useState("");
+  const [bookPriceError, setBookPriceError] = useState("");
+  const [bookVersionError, setBookVersionError] = useState("");
+
+  const [bookISBNError, setBookISBNError] = useState("");
+  const [bookBriefError, setBookBriefError] = useState("");
+  const [uploadBookCoverError, setUploadBookCoverError] = useState();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -100,27 +112,9 @@ const AddBook = (props) => {
   };
   const [file, setFile] = useState();
   const previewImage = (e) => {
-    // console.log(e.target.files);
-    // console.log(e.target.files[0]);
-    // console.log(URL.createObjectURL(e.target.files[0]));
     setFile(URL.createObjectURL(e.target.files[0]));
     setUploadBookCover(URL.createObjectURL(e.target.files[0]));
-    // console.log("uploadBookCover", uploadBookCover);
-    // console.log(URL.createObjectURL(e.target.files[0]));
-    // console.log(e.target.files[0]);
   };
-
-  // function readURL(input) {
-  //   if (input.files && input.files[0]) {
-  //     var reader = new FileReader();
-  //     reader.onload = function (e) {
-  //       // $("#blah").attr("src", e.target.result).width(150).height(200);
-  //       setBookCoverImage(e.target.result);
-  //     };
-  //     reader.readAsDataURL(input.files[0]);
-  //   }
-  //   console.log(uploadBookCover);
-  // }
 
   return (
     <div
@@ -150,22 +144,22 @@ const AddBook = (props) => {
           >
             <div
               className="main-div-with-book-details"
-              style={
-                {
-                  // backgroundColor: "white",
-                  // // display: "grid",
-                  // // gridTemplateColumns: "auto auto",
-                  // // gridTemplateRows: "auto",
-                  // display: "flex",
-                  // flexDirection: "row",
-                  // alignItems: "flex-start",
-                  // justifyContent: "center",
-                  // height: "77vh",
-                  // borderRadius: "32px",
-                  // padding: "2vw",
-                  // marginBottom: "10px",
-                }
-              }
+              // style={
+              //   {
+              //     // backgroundColor: "white",
+              //     // // display: "grid",
+              //     // // gridTemplateColumns: "auto auto",
+              //     // // gridTemplateRows: "auto",
+              //     // display: "flex",
+              //     // flexDirection: "row",
+              //     // alignItems: "flex-start",
+              //     // justifyContent: "center",
+              //     // height: "77vh",
+              //     // borderRadius: "32px",
+              //     // padding: "2vw",
+              //     // marginBottom: "10px",
+              //   }
+              // }
             >
               <div
                 className="left form-group"
@@ -179,12 +173,22 @@ const AddBook = (props) => {
                 }
               >
                 <div
-                  style={{
-                    margin: "0",
-                    padding: "0",
-                  }}
+                // style={{
+                //   margin: "0",
+                //   padding: "0",
+                // }}
                 >
                   <input
+                    // pattern=".*\S.*"
+                    // onInvalid={}
+                    onBlur={() => {
+                      if (bookTitle === "") {
+                        setBookTitleError(true);
+                        // console.log("error", error);
+                      } else {
+                        setBookTitleError(false);
+                      }
+                    }}
                     style={{ margin: "0" }}
                     type="text"
                     className={`form-control ${
@@ -195,6 +199,7 @@ const AddBook = (props) => {
                     value={bookTitle}
                     onChange={(e) => {
                       setBookTitle(e.target.value);
+                      setBookTitle(false);
                     }}
                   ></input>
 
@@ -210,21 +215,31 @@ const AddBook = (props) => {
                     *
                   </span>
 
-                  <p
-                    className={`${bookTitle ? "invisibleSpan" : ""}`}
-                    // className="missing-field-warning"
-                    // style={{ color: "red" }}
-                  >
-                    Book title is required.
-                  </p>
+                  {bookTitleError && (
+                    <p
+                      className={`${bookTitle ? "invisibleSpan" : ""}`}
+                      // className="missing-field-warning"
+                      // style={{ color: "red" }}
+                    >
+                      Book title is required.
+                    </p>
+                  )}
                 </div>
                 <div
-                  style={{
-                    margin: "0",
-                    padding: "0",
-                  }}
+                // style={{
+                //   margin: "0",
+                //   padding: "0",
+                // }}
                 >
                   <input
+                    onBlur={() => {
+                      if (bookAuthor === "") {
+                        setBookAuthorError(true);
+                        // console.log("error", error);
+                      } else {
+                        setBookAuthorError(false);
+                      }
+                    }}
                     style={{ margin: "0" }}
                     type="text"
                     className="form-control"
@@ -247,13 +262,15 @@ const AddBook = (props) => {
                     *
                   </span>
 
-                  <p
-                    className={`${bookAuthor ? "invisibleSpan" : ""}`}
-                    // className="missing-field-warning"
-                    // style={{ color: "#dc3545" }}
-                  >
-                    Book Author is required.
-                  </p>
+                  {bookAuthorError && (
+                    <p
+                      className={`${bookAuthor ? "invisibleSpan" : ""}`}
+                      // className="missing-field-warning"
+                      // style={{ color: "#dc3545" }}
+                    >
+                      Book Author is required.
+                    </p>
+                  )}
                 </div>
                 <div
                   style={{
@@ -262,6 +279,14 @@ const AddBook = (props) => {
                   }}
                 >
                   <select
+                    onBlur={() => {
+                      if (categories === "") {
+                        setCategoriesError(true);
+                        // console.log("error", error);
+                      } else {
+                        setCategoriesError(false);
+                      }
+                    }}
                     style={{ margin: "0" }}
                     className="form-select form-control"
                     aria-label="Default select example"
@@ -292,13 +317,15 @@ const AddBook = (props) => {
                     *
                   </span>
 
-                  <p
-                    className={`${categories ? "invisibleSpan" : ""}`}
-                    // className="missing-field-warning"
-                    // style={{ color: "#dc3545" }}
-                  >
-                    Categories is required.
-                  </p>
+                  {categoriesError && (
+                    <p
+                      className={`${categories ? "invisibleSpan" : ""}`}
+                      // className="missing-field-warning"
+                      // style={{ color: "#dc3545" }}
+                    >
+                      Categories is required.
+                    </p>
+                  )}
                 </div>
                 <div
                   style={{
@@ -307,6 +334,14 @@ const AddBook = (props) => {
                   }}
                 >
                   <input
+                    onBlur={() => {
+                      if (bookPrice === "") {
+                        setBookPriceError(true);
+                        // console.log("error", error);
+                      } else {
+                        setBookPriceError(false);
+                      }
+                    }}
                     style={{ margin: "0" }}
                     type="text"
                     className="form-control"
@@ -329,13 +364,15 @@ const AddBook = (props) => {
                     *
                   </span>
 
-                  <p
-                    className={`${bookPrice ? "invisibleSpan" : ""}`}
-                    // className="missing-field-warning"
-                    // style={{ color: "#dc3545" }}
-                  >
-                    Book Price is required.
-                  </p>
+                  {bookPriceError && (
+                    <p
+                      className={`${bookPrice ? "invisibleSpan" : ""}`}
+                      // className="missing-field-warning"
+                      // style={{ color: "#dc3545" }}
+                    >
+                      Book Price is required.
+                    </p>
+                  )}
                 </div>
                 <div
                   style={{
@@ -344,6 +381,13 @@ const AddBook = (props) => {
                   }}
                 >
                   <input
+                    onBlur={() => {
+                      if (bookVersion === "") {
+                        setBookVersionError(true);
+                      } else {
+                        setBookVersionError(false);
+                      }
+                    }}
                     style={{ margin: "0" }}
                     type="text"
                     className="form-control"
@@ -368,13 +412,15 @@ const AddBook = (props) => {
                     *
                   </span>
 
-                  <p
-                    className={`${bookVersion ? "invisibleSpan" : ""}`}
-                    // className="missing-field-warning"
-                    // style={{ color: "#dc3545" }}
-                  >
-                    Book Version is required.
-                  </p>
+                  {bookVersionError && (
+                    <p
+                      className={`${bookVersion ? "invisibleSpan" : ""}`}
+                      // className="missing-field-warning"
+                      // style={{ color: "#dc3545" }}
+                    >
+                      Book Version is required.
+                    </p>
+                  )}
                 </div>
                 <select
                   className="form-select form-control"
@@ -429,6 +475,14 @@ const AddBook = (props) => {
                   }}
                 >
                   <input
+                    onBlur={() => {
+                      if (bookISBN === "") {
+                        setBookISBNError(true);
+                        // console.log("error", error);
+                      } else {
+                        setBookISBNError(false);
+                      }
+                    }}
                     style={{ margin: "0" }}
                     type="text"
                     className="form-control"
@@ -453,19 +507,21 @@ const AddBook = (props) => {
                   >
                     *
                   </span>
-                  <p
-                    style={
-                      {
-                        // backgroundColor: "red",
-                        // width: "100%",
-                        // height: "100%",
+                  {bookISBNError && (
+                    <p
+                      style={
+                        {
+                          // backgroundColor: "red",
+                          // width: "100%",
+                          // height: "100%",
+                        }
                       }
-                    }
-                    // className="missing-field-warning"
-                    className={`${bookISBN ? "invisibleSpan" : ""}`}
-                  >
-                    Book ISBN is required.
-                  </p>
+                      // className="missing-field-warning"
+                      className={`${bookISBN ? "invisibleSpan" : ""}`}
+                    >
+                      Book ISBN is required.
+                    </p>
+                  )}
                 </div>
                 <input
                   // onFocus={handleChange}
@@ -487,31 +543,25 @@ const AddBook = (props) => {
                 className="right"
                 // style={{ maxWidth: "50%", maxHeight: "10%" }}
               >
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {/* <img src={uploadBookCover}></img> */}
+                <div
+                  style={{ display: "flex", flexDirection: "column" }}
+                  className="img-div"
+                >
                   <img
-                    // src={
-                    //   store.getState().book.newBook?.volumeInfo?.imageLinks
-                    //     ?.thumbnail
-                    // }
+                    className="book-cover"
                     src={uploadBookCover}
-                    // src={book?.volumeInfo?.imageLinks?.thumbnail}
                     alt={bookTitle}
-                    style={{
-                      width: "120px",
-                      height: "180px",
-                      borderRadius: "10px",
-                      objectFit: "cover",
-                      boxShadow: " 2px 4px white, 4px 6px gray",
-
-                      // maxWidth: "120px",
-                      // maxHeight: "180px",
-                      // border: "1px solid red",
-
-                      // backgroundSize: "contain",
-                      // marginBottom: "15px",
-                      // paddingTop: "10px",
-                    }}
+                    style={
+                      {
+                        // // width: "120px",
+                        // // height: "180px",
+                        // width: "128px",
+                        // height: "200px",
+                        // borderRadius: "10px",
+                        // objectFit: "cover",
+                        // boxShadow: " 2px 4px white, 4px 6px gray",
+                      }
+                    }
                   ></img>
                   <img
                     src={bookmarkIcon}
@@ -539,37 +589,17 @@ const AddBook = (props) => {
                     // border: "1px solid red",
                   }}
                 >
-                  {/* <button
-                    type="button"
-                    className="btn-outline-primary btn upload-btn"
-                    style={{
-                      background: "none",
-                      border: "2px solid #E03FD8",
-                      borderRadius: "12px",
-                      fontSize: "12px",
-                      marginBottom: "10px",
-                      color: "#E03FD8",
-                      borderRadius: "5px",
-                      fontWeight: "bold",
-                      borderRadius: "12px",
-                      padding: "10px 20px",
-                      // width: "10vw",
-                    }}
-                  >
-                    Upload Book Cover
-                  </button> */}
-
                   <input
+                    onBlur={() => {
+                      if (bookISBN === "") {
+                        setUploadBookCoverError(true);
+                        // console.log("error", error);
+                      } else {
+                        setUploadBookCoverError(false);
+                      }
+                    }}
                     ref={fileInputRef}
                     className="custom-file-input"
-                    // onChange={() => {
-                    //   // console.log("in 1");
-                    //   // console.log(e.target);
-                    //   // console.log(e.target.files[0]);
-                    //   // readURL(e.target);
-                    //   previewImage;
-                    //   // setUploadBookCover(e.target.files[0]);
-                    // }}
                     onChange={previewImage}
                     type="file"
                   ></input>
@@ -585,11 +615,39 @@ const AddBook = (props) => {
                   >
                     *
                   </span>
+                  {uploadBookCoverError && (
+                    <p
+                      style={{
+                        // backgroundColor: "red",
+                        // width: "100%",
+                        // height: "100%",
+                        // display: "inline-block",
+                        // position: "relative",
+                        // top: "-10px",
+                        // margin: "0",
+                        // padding: "0",
+                        marginRight: "5px",
+                      }}
+                      // className="missing-field-warning"
+                      className={`warning-p 
+                      ${bookBrief ? "invisibleSpan" : ""}`}
+                    >
+                      Book Cover is required.
+                    </p>
+                  )}
                 </div>
                 <div
                 // style={{ display: "flex", flexDirection: "column" }}
                 >
                   <textarea
+                    onBlur={() => {
+                      if (bookISBN === "") {
+                        setBookBriefError(true);
+                        // console.log("error", error);
+                      } else {
+                        setBookBriefError(false);
+                      }
+                    }}
                     className="form-control"
                     name=""
                     id=""
@@ -597,12 +655,10 @@ const AddBook = (props) => {
                     required
                     style={{
                       resize: "none",
-                      // width: "100%",
-                      // padding: "15px",
                       borderRadius: "5px",
+                      backgroundColor: "#eff1fd",
                       // paddingTop: "10px",
                       // paddingLeft: "10px",
-                      backgroundColor: "#eff1fd",
                     }}
                     rows="5"
                     value={bookBrief}
@@ -623,6 +679,27 @@ const AddBook = (props) => {
                   >
                     *
                   </span>
+                  {bookBriefError && (
+                    <p
+                      style={
+                        {
+                          // backgroundColor: "red",
+                          // width: "100%",
+                          // height: "100%",
+                          // display: "inline-block",
+                          // position: "relative",
+                          // top: "-10px",
+                          // margin: "0",
+                          // padding: "0",
+                        }
+                      }
+                      // className="missing-field-warning"
+                      className={`warning-p 
+                      ${bookBrief ? "invisibleSpan" : ""}`}
+                    >
+                      Book Brief is required.
+                    </p>
+                  )}
                   <p
                     style={{
                       color: "gray",
@@ -655,7 +732,10 @@ const AddBook = (props) => {
                       // right: "-226px",
                     }}
                   >
-                    <div style={{ height: "fit-content" }}>
+                    <div
+                      className="cancel-btn-div"
+                      style={{ height: "fit-content" }}
+                    >
                       <button
                         type="button"
                         style={{
@@ -667,7 +747,7 @@ const AddBook = (props) => {
                           width: "5vw",
                           // backgroundColor: "#b0011c",
                         }}
-                        className="btn "
+                        className="btn cancel-btn"
                         onClick={() => {
                           navigate("/main-page");
                           // setToggleToast(!toggleToast);
@@ -677,7 +757,10 @@ const AddBook = (props) => {
                         Cancel
                       </button>
                     </div>
-                    <div style={{ height: "fit-content" }}>
+                    <div
+                      style={{ height: "fit-content" }}
+                      className="save-btn-div"
+                    >
                       <button
                         // type="submit"
                         type="button"
@@ -687,10 +770,10 @@ const AddBook = (props) => {
                           fontWeight: "bold",
                           borderRadius: "12px",
                           padding: "10px",
-                          width: "4vw",
+                          width: "5vw",
                           // width: "fit-contents",
                         }}
-                        className="btn btn-primary"
+                        className="btn btn-primary save-btn"
                         onClick={handleAddBook}
                       >
                         Save

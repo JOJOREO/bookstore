@@ -105,6 +105,12 @@ button .submitButton {
   border-radius: "12px";
   background-color: "#4497f6";
 }
+.submitButton {
+  padding: 8px 25px !important;
+  /* font-size: x-small; */
+  border-radius: 10px !important;
+  background-color: #0a4cd3 !important;
+}
 
 .img-container {
   width: 45%;
@@ -435,19 +441,27 @@ ul button {
   color: #dc3545;
 }
 
+.warning-p {
+  position: relative;
+  bottom: -5px;
+  left: 5px;
+  margin: 5;
+  margin-top: -25px;
+  color: #dc3545;
+}
+
 /* .missing-field-warning {
   color: #dc3545;
 } */
 .right {
-  /* border: 1px solid green; */
   width: 100%;
   height: 100%;
   padding-left: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: ce;
 }
+
 .form-group select {
   background-color: #eff1fd;
   width: 100%;
@@ -463,19 +477,7 @@ select.form-select.form-control {
 }
 
 input[type="file"] {
-  /* border: 1px solid red; */
   width: 60%;
-
-  /* background: none;
-  border: 2px solid #e03fd8;
-  border-radius: 12px;
-  font-size: 12px;
-  margin-bottom: 10px;
-  color: #e03fd8;
-  border-radius: 5px;
-  font-weight: bold;
-  border-radius: 12px;
-  padding: 4px 20px; */
 }
 .custom-file-input::-webkit-file-upload-button {
   visibility: hidden;
@@ -483,17 +485,6 @@ input[type="file"] {
 .custom-file-input::before {
   content: "Upload Book Cover";
   display: inline-block;
-  /* background: linear-gradient(top, #f9f9f9, #e3e3e3); */
-  /* border: 1px solid #999; */
-  /* border-radius: 3px; */
-  /* padding: 5px 8px; */
-  /* outline: none; */
-  /* white-space: nowrap; */
-  /* -webkit-user-select: none; */
-  /* cursor: pointer; */
-  /* text-shadow: 1px 1px #fff; */
-  /* font-weight: 700; */
-  /* font-size: 10pt; */
   background: none;
   border: 2px solid #e03fd8;
   border-radius: 12px;
@@ -505,105 +496,22 @@ input[type="file"] {
   border-radius: 12px;
   padding: 10px 20px;
 }
-.custom-file-input:hover::before {
-  /* border-color: black; */
+div.right > div.img-div > img.book-cover {
+  /* width: "120px", */
+  /* // height: "180px", */
+  width: 128px;
+  height: 200px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 2px 4px white, 4px 6px gray;
 }
-.custom-file-input:active::before {
+
+/* .custom-file-input:hover::before {
+  border-color: black;
+} */
+/* .custom-file-input:active::before {
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
-}
-
-/* @media screen and (min-width: 800px) {
-  .nav-center {
-    max-width: 1170px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-  }
-  .nav-header {
-    padding: 0;
-  }
-  .nav-toggle {
-    display: none;
-  }
-  .links-container {
-    height: auto !important;
-  }
-  .links {
-    display: flex;
-  }
-  .links a {
-    padding: 0;
-    margin: 0 0.5rem;
-  }
-  .links a:hover {
-    padding: 0;
-    background: transparent;
-  }
-  .social-icons {
-    display: flex;
-  }
-  .social-icons a {
-    margin: 0 0.5rem;
-    color: var(--clr-primary-5);
-    transition: var(--transition);
-  }
-  .social-icons a:hover {
-    color: var(--clr-primary-7);
-  }
 } */
-
-/* media queries */
-/* @media screen and (min-width: 800px) {
-  h1 {
-    font-size: 4rem;
-  }
-  h2 {
-    font-size: 2.5rem;
-  }
-  h3 {
-    font-size: 1.75rem;
-  }
-  h4 {
-    font-size: 1rem;
-  }
-  body {
-    font-size: 1rem;
-  }
-  h1,
-  h2,
-  h3,
-  h4 {
-    line-height: 1;
-  }
-
-  /* .content {
-    width: 100vw;
-    height: 100vh;
-  } */
-
-/* .content {
-    width: 100vw;
-    height: 100vh;
-    padding-left: 5vw;
-    border: 1px solid red;
-  } */
-
-/* .books {
-  padding-left: 5vw;
-  padding-right: 1vw;
-  transition: var(--transition);
-  width: 90vw;
-} */
-
-/* .books {
-    padding-left: 5vw;
-    padding-right: 7vw;
-    transition: var(--transition);
-    width: 90vw;
-  } */
-/* }  */
 
 @media screen and (max-width: 1024px) {
   h1 {
@@ -627,6 +535,18 @@ input[type="file"] {
   h4 {
     line-height: 1;
   }
+  /* login page */
+
+  .form-group .btn {
+    /* padding: 8px 25px !important;
+    font-size: small !important;
+    border-radius: 10px !important; */
+    /* background-color: #0a4cd3 !important;
+    color: white !important; */
+  }
+  /*end of login page */
+
+  /* main page */
   .content {
     width: 100vw;
     height: 100vh;
@@ -645,6 +565,41 @@ input[type="file"] {
   .pagination-nav {
     margin-top: -5vh;
   }
+
+  /*end of main page */
+
+  /* add / edit  book  */
+
+  div.right > div.img-div > img.book-cover {
+    /* width: "120px", */
+    /* // height: "180px", */
+    /* width: 128px;
+    height: 200px; */
+    width: 48px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 2px 4px white, 4px 6px gray;
+  }
+
+  input[type="file"] {
+    width: 77%;
+    /* margin-bottom: 0px; */
+  }
+
+  .custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+  .custom-file-input::before {
+    font-size: x-small;
+    margin-left: 5px;
+  }
+  .cancel-btn,
+  .save-btn {
+    font-size: x-small;
+  }
+
+  /*end of  add / edit  book  */
 }
 
 @media screen and (max-width: 768px) {
@@ -664,12 +619,31 @@ input[type="file"] {
     /* font-size: 0.85rem; */
     font-size: 1rem;
   }
-  h1,
+  /* h1,
   h2,
   h3,
   h4 {
     line-height: 0.85;
+  } */
+
+  /* login page */
+
+  .submitButton {
+    padding: 8px 25px;
+    font-size: x-small;
+    border-radius: 10px;
+    /* background-color: #0a4cd3; */
   }
+  .btn {
+    font-size: x-small;
+    padding: 8px 25px;
+  }
+
+  .submitButton {
+    border-radius: 5px;
+  }
+  /*end of login page */
+
   .content {
     width: 100vw;
     height: 100vh;
@@ -735,6 +709,45 @@ input[type="file"] {
   .pagination-nav {
     margin-top: -5vh;
   }
+
+  /* add / edit  book  */
+
+  div.right > div.img-div > img.book-cover {
+    /* width: "120px", */
+    /* // height: "180px", */
+    /* width: 128px;
+    height: 200px; */
+    width: 48px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 2px 4px white, 4px 6px gray;
+  }
+
+  input[type="file"] {
+    width: 80%;
+    /* margin-bottom: 0px; */
+  }
+
+  .custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+  .custom-file-input::before {
+    font-size: xx-small;
+    margin-left: 5px;
+  }
+  .book-buttons {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    font-size: xx-small;
+    width: fit-content !important;
+    /* padding-right: 15px; */
+  }
+  /*end of  add / edit  book  */
 }
 
 @media screen and (max-width: 481px) {
@@ -762,8 +775,25 @@ input[type="file"] {
   h3,
   h4,
   h5 {
-    line-height: 0.85;
+    /* line-height: 0.85; */
   }
+
+  /* login */
+
+  .submitButton {
+    padding: 8px 25px;
+    font-size: smaller;
+    border-radius: 10px;
+    /* background-color: #0a4cd3; */
+  }
+  .btn {
+    padding: 8px 25px;
+    font-size: smaller;
+    border-radius: 10px;
+    /* background-color: #0a4cd3; */
+  }
+
+  /*end of  login */
   .content {
     width: 100vw;
     height: 100vh;
@@ -771,6 +801,9 @@ input[type="file"] {
   }
   .content nav {
     padding-left: 20vw;
+  }
+  .form-div .logo {
+    height: 40px;
   }
 
   aside {
@@ -904,4 +937,43 @@ input[type="file"] {
   .pagination-nav {
     margin-top: -6vh;
   }
+
+  /* add / edit  book  */
+
+  div.right > div.img-div > img.book-cover {
+    /* width: "120px", */
+    /* // height: "180px", */
+    /* width: 128px;
+    height: 200px; */
+    width: 48px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 2px 4px white, 4px 6px gray;
+  }
+
+  input[type="file"] {
+    width: 80%;
+    /* margin-bottom: 0px; */
+  }
+
+  .custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+  .custom-file-input::before {
+    font-size: smaller;
+    margin-left: 5px;
+  }
+  .book-buttons {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    font-size: smaller;
+    width: fit-content !important;
+    /* padding-right: 15px; */
+  }
+  /*end of  add / edit  book  */
 }
