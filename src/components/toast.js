@@ -12,33 +12,20 @@ import { AddToDeleteArray } from "../store/actions";
 import { bookDelete } from "../store/actions";
 import { toggleSideBarFunction } from "../store/actions";
 import { bookSetter } from "../store/actions";
-import { redirect } from "react-router-dom";
-
 import { useNavigate } from "react-router-dom";
 
 const Toast = (props) => {
   const [open, setOpen] = React.useState(false);
-  // console.log("");
   const navigate = useNavigate();
   const handleClickToOpen = () => {
     setOpen(true);
   };
-  //   if (props.toggleToast) {
-  //     handleClickToOpen();
-  //   }
   useEffect(() => {
-    // console.log("inside toast", props.toggleToast);
-    // props.toggleToast ? handleClickToOpen() : "";
     if (props.toggleToast) {
       handleClickToOpen();
     }
-    // props.setToggleToast(!props.toggleToast);
-
-    // console.log("open", open);
   }, [props.toggleToast]);
-  useEffect(() => {
-    // console.log("open", open);
-  }, [open]);
+  useEffect(() => {}, [open]);
 
   const handleToClose = () => {
     setOpen(false);
@@ -46,17 +33,10 @@ const Toast = (props) => {
   };
   return (
     <div style={{}}>
-      {/* <h4>How to create Dialog Box in ReactJS?</h4> */}
-      {/* <Button variant="outlined" color="primary" onClick={handleClickToOpen}>
-        Open Demo Dialog
-      </Button> */}
-      {/* {props.toggleToast ? handleClickToOpen : handleToClose} */}
       <Dialog
         open={open}
         onClose={handleToClose}
-        // style={{ width: "100%", maxWidth: "500px" }}
         PaperProps={{
-          //   sx: { width: "100%", maxWidth: "720px" },
           style: { width: "35vw", paddingBottom: "10px" },
         }}
       >
@@ -94,22 +74,11 @@ const Toast = (props) => {
             className="btn btn-danger"
             onClick={() => {
               props.toastCallback(true);
-              // console.log(props.bookDelete);
-              // console.log(store.getState().book.deletedBookConfirm);
               console.log(store.getState().book.book.id);
               props.bookDelete(true);
               props.AddToDeleteArray(store.getState().book.book.id);
-              // console.log(
-              //   "delete book confirm",
-              //   store.getState().book.deletedBookConfirm
-              // );
-
-              // console.log("deleted array", store.getState().book.deletedArray);
               handleToClose();
               navigate("/main-page");
-
-              // store.getState().book.deleteFnc(store.getState().book.book.id);
-              // console.log(store.getState());
             }}
             color="primary"
             style={{
@@ -156,8 +125,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-// console.log("initial store ", store.getState());
-// store.subscribe(() => {
-//   console.log("store changed", store.getState());
-// });
 export default connect(mapStateToProps, mapDispatchToProps)(Toast);

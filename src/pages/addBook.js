@@ -24,19 +24,15 @@ const AddBook = (props) => {
   const [bookEdition, setBookEdition] = useState("");
   const [bookISBN, setBookISBN] = useState("");
   const [bookReleaseDate, setBookReleaseDate] = useState("");
-  // const [bookCoverImage, setBookCoverImage] = useState("");
   const [bookBrief, setBookBrief] = useState("");
   const [inputType, setInputType] = useState("text");
   const [uploadBookCover, setUploadBookCover] = useState();
-
-  // const [error, setError] = useState(false);
 
   const [bookTitleError, setBookTitleError] = useState("");
   const [bookAuthorError, setBookAuthorError] = useState("");
   const [categoriesError, setCategoriesError] = useState("");
   const [bookPriceError, setBookPriceError] = useState("");
   const [bookVersionError, setBookVersionError] = useState("");
-
   const [bookISBNError, setBookISBNError] = useState("");
   const [bookBriefError, setBookBriefError] = useState("");
   const [uploadBookCoverError, setUploadBookCoverError] = useState();
@@ -50,7 +46,6 @@ const AddBook = (props) => {
       setCategories(
         store.getState().book.book.volumeInfo.categories.toString()
       );
-      // console.log(store.getState().book.book.saleInfo.retailPrice);
       setBookPrice("not available");
       setBookVersion(store.getState().book.book.volumeInfo.contentVersion);
       setBookISBN(
@@ -69,7 +64,6 @@ const AddBook = (props) => {
   }, []);
 
   const handleAddBook = () => {
-    // console.log(bookCoverImage);
     const newBook = {
       id: !store.getState().book.toggleEdit
         ? bookTitle + (Math.floor(Math.random() * 600) + 1)
@@ -90,11 +84,9 @@ const AddBook = (props) => {
       saleInfo: !store.getState().book.toggleEdit
         ? { retailPrice: { amount: bookPrice } }
         : {},
-      //!store.getState().book.toggleEdit? saleInfo: { retailPrice: { amount: bookPrice } }:{},
     };
     console.log("newBook", newBook);
     props.AddNewBook(newBook);
-    // props.AddToEditArray(store.getState().book.newBook);
     navigate("/main-page");
   };
   const fileInputRef = useRef();
@@ -132,59 +124,17 @@ const AddBook = (props) => {
             store.getState().toggleSideBar.toggleSideBar ? "full-ListBook" : ""
           }`}
         >
-          <h1
-          // style={{ marginBottom: "15px" }}
-          >{`${
+          <h1>{`${
             store.getState().book.toggleEdit ? "Edit Book" : "Add Book"
           }`}</h1>
-          <form
-            onSubmit={handleSubmit}
-            className="add-book-form"
-            // style={{ width: "100%", backgroundColor: "purple" }}
-          >
-            <div
-              className="main-div-with-book-details"
-              // style={
-              //   {
-              //     // backgroundColor: "white",
-              //     // // display: "grid",
-              //     // // gridTemplateColumns: "auto auto",
-              //     // // gridTemplateRows: "auto",
-              //     // display: "flex",
-              //     // flexDirection: "row",
-              //     // alignItems: "flex-start",
-              //     // justifyContent: "center",
-              //     // height: "77vh",
-              //     // borderRadius: "32px",
-              //     // padding: "2vw",
-              //     // marginBottom: "10px",
-              //   }
-              // }
-            >
-              <div
-                className="left form-group"
-                style={
-                  {
-                    // border: "1px solid red",
-                    // width: "100%",
-                    // height: "100%",
-                    // paddingRight: "10px",
-                  }
-                }
-              >
-                <div
-                // style={{
-                //   margin: "0",
-                //   padding: "0",
-                // }}
-                >
+          <form onSubmit={handleSubmit} className="add-book-form">
+            <div className="main-div-with-book-details">
+              <div className="left form-group">
+                <div>
                   <input
-                    // pattern=".*\S.*"
-                    // onInvalid={}
                     onBlur={() => {
                       if (bookTitle === "") {
                         setBookTitleError(true);
-                        // console.log("error", error);
                       } else {
                         setBookTitleError(false);
                       }
@@ -216,26 +166,16 @@ const AddBook = (props) => {
                   </span>
 
                   {bookTitleError && (
-                    <p
-                      className={`${bookTitle ? "invisibleSpan" : ""}`}
-                      // className="missing-field-warning"
-                      // style={{ color: "red" }}
-                    >
+                    <p className={`${bookTitle ? "invisibleSpan" : ""}`}>
                       Book title is required.
                     </p>
                   )}
                 </div>
-                <div
-                // style={{
-                //   margin: "0",
-                //   padding: "0",
-                // }}
-                >
+                <div>
                   <input
                     onBlur={() => {
                       if (bookAuthor === "") {
                         setBookAuthorError(true);
-                        // console.log("error", error);
                       } else {
                         setBookAuthorError(false);
                       }
@@ -263,11 +203,7 @@ const AddBook = (props) => {
                   </span>
 
                   {bookAuthorError && (
-                    <p
-                      className={`${bookAuthor ? "invisibleSpan" : ""}`}
-                      // className="missing-field-warning"
-                      // style={{ color: "#dc3545" }}
-                    >
+                    <p className={`${bookAuthor ? "invisibleSpan" : ""}`}>
                       Book Author is required.
                     </p>
                   )}
@@ -282,7 +218,6 @@ const AddBook = (props) => {
                     onBlur={() => {
                       if (categories === "") {
                         setCategoriesError(true);
-                        // console.log("error", error);
                       } else {
                         setCategoriesError(false);
                       }
@@ -292,11 +227,9 @@ const AddBook = (props) => {
                     aria-label="Default select example"
                     required
                     value={categories}
-                    // defaultValue={"Categories"}
                     onChange={(e) => {
                       setCategories(e.target.value);
                     }}
-                    // placeholder="Categories"
                   >
                     <option value="" hidden disabled>
                       Categories
@@ -318,11 +251,7 @@ const AddBook = (props) => {
                   </span>
 
                   {categoriesError && (
-                    <p
-                      className={`${categories ? "invisibleSpan" : ""}`}
-                      // className="missing-field-warning"
-                      // style={{ color: "#dc3545" }}
-                    >
+                    <p className={`${categories ? "invisibleSpan" : ""}`}>
                       Categories is required.
                     </p>
                   )}
@@ -337,7 +266,6 @@ const AddBook = (props) => {
                     onBlur={() => {
                       if (bookPrice === "") {
                         setBookPriceError(true);
-                        // console.log("error", error);
                       } else {
                         setBookPriceError(false);
                       }
@@ -365,11 +293,7 @@ const AddBook = (props) => {
                   </span>
 
                   {bookPriceError && (
-                    <p
-                      className={`${bookPrice ? "invisibleSpan" : ""}`}
-                      // className="missing-field-warning"
-                      // style={{ color: "#dc3545" }}
-                    >
+                    <p className={`${bookPrice ? "invisibleSpan" : ""}`}>
                       Book Price is required.
                     </p>
                   )}
@@ -402,7 +326,6 @@ const AddBook = (props) => {
                   <span
                     className={`${bookVersion ? "invisibleSpan" : ""}`}
                     style={{
-                      // display: "inline",
                       color: "red",
                       position: "relative",
                       left: "95px",
@@ -413,11 +336,7 @@ const AddBook = (props) => {
                   </span>
 
                   {bookVersionError && (
-                    <p
-                      className={`${bookVersion ? "invisibleSpan" : ""}`}
-                      // className="missing-field-warning"
-                      // style={{ color: "#dc3545" }}
-                    >
+                    <p className={`${bookVersion ? "invisibleSpan" : ""}`}>
                       Book Version is required.
                     </p>
                   )}
@@ -426,11 +345,9 @@ const AddBook = (props) => {
                   className="form-select form-control"
                   aria-label="Default select example"
                   value={bookOlderVersion}
-                  // defaultValue={"Book Older Version"}
                   onChange={(e) => {
                     setBookOlderVersion(e.target.value);
                   }}
-                  // placeholder="Categories"
                 >
                   <option value={""} hidden disabled>
                     Book Older Version
@@ -439,46 +356,25 @@ const AddBook = (props) => {
                   <option value="2">2</option>
                   <option value="3">3</option>
                 </select>
-                {/* {!categories && (
-                  <p
-                    className="missing-field-warning"
-                    // style={{ color: "#dc3545" }}
-                  >
-                    Categories is required.
-                  </p>
-                )} */}
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Book Edition"
-                  // required
                   value={bookEdition}
                   onChange={(e) => {
                     setBookEdition(e.target.value);
                   }}
                 ></input>
-                {/* {!bookEdition && (
-                  <p
-                    className="missing-field-warning"
-                    // style={{ color: "#dc3545" }}
-                  >
-                    Book Edition is required.
-                  </p>
-                )} */}
                 <div
                   style={{
                     margin: "0",
                     padding: "0",
-                    // height: "15%",
-                    // display: "flex",
-                    // flexDirection: "row",
                   }}
                 >
                   <input
                     onBlur={() => {
                       if (bookISBN === "") {
                         setBookISBNError(true);
-                        // console.log("error", error);
                       } else {
                         setBookISBNError(false);
                       }
@@ -500,7 +396,6 @@ const AddBook = (props) => {
                       display: "inline",
                       color: "red",
                       position: "relative",
-                      // left: "-34vw",
                       left: "80px",
                       top: "-32px",
                     }}
@@ -508,23 +403,12 @@ const AddBook = (props) => {
                     *
                   </span>
                   {bookISBNError && (
-                    <p
-                      style={
-                        {
-                          // backgroundColor: "red",
-                          // width: "100%",
-                          // height: "100%",
-                        }
-                      }
-                      // className="missing-field-warning"
-                      className={`${bookISBN ? "invisibleSpan" : ""}`}
-                    >
+                    <p className={`${bookISBN ? "invisibleSpan" : ""}`}>
                       Book ISBN is required.
                     </p>
                   )}
                 </div>
                 <input
-                  // onFocus={handleChange}
                   style={{ color: "grey" }}
                   type={inputType}
                   onClick={handleChange}
@@ -536,13 +420,9 @@ const AddBook = (props) => {
                     setBookReleaseDate(e.target.value);
                     console.log(bookReleaseDate);
                   }}
-                  // on={console.log("in 2")}
                 ></input>
               </div>
-              <div
-                className="right"
-                // style={{ maxWidth: "50%", maxHeight: "10%" }}
-              >
+              <div className="right">
                 <div
                   style={{ display: "flex", flexDirection: "column" }}
                   className="img-div"
@@ -551,23 +431,11 @@ const AddBook = (props) => {
                     className="book-cover"
                     src={uploadBookCover}
                     alt={bookTitle}
-                    style={
-                      {
-                        // // width: "120px",
-                        // // height: "180px",
-                        // width: "128px",
-                        // height: "200px",
-                        // borderRadius: "10px",
-                        // objectFit: "cover",
-                        // boxShadow: " 2px 4px white, 4px 6px gray",
-                      }
-                    }
                   ></img>
                   <img
                     src={bookmarkIcon}
                     style={{
                       width: "18px",
-                      // height: "13px",
                       margin: "0",
                       padding: "0",
                       marginLeft: "20px",
@@ -580,20 +448,17 @@ const AddBook = (props) => {
                 <div
                   style={{
                     display: "flex",
-                    // flexDirection: "row",
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
                     padding: "0",
                     height: "fit-content",
-                    // border: "1px solid red",
                   }}
                 >
                   <input
                     onBlur={() => {
                       if (bookISBN === "") {
                         setUploadBookCoverError(true);
-                        // console.log("error", error);
                       } else {
                         setUploadBookCoverError(false);
                       }
@@ -618,17 +483,8 @@ const AddBook = (props) => {
                   {uploadBookCoverError && (
                     <p
                       style={{
-                        // backgroundColor: "red",
-                        // width: "100%",
-                        // height: "100%",
-                        // display: "inline-block",
-                        // position: "relative",
-                        // top: "-10px",
-                        // margin: "0",
-                        // padding: "0",
                         marginRight: "5px",
                       }}
-                      // className="missing-field-warning"
                       className={`warning-p 
                       ${bookBrief ? "invisibleSpan" : ""}`}
                     >
@@ -636,14 +492,11 @@ const AddBook = (props) => {
                     </p>
                   )}
                 </div>
-                <div
-                // style={{ display: "flex", flexDirection: "column" }}
-                >
+                <div>
                   <textarea
                     onBlur={() => {
                       if (bookISBN === "") {
                         setBookBriefError(true);
-                        // console.log("error", error);
                       } else {
                         setBookBriefError(false);
                       }
@@ -657,8 +510,6 @@ const AddBook = (props) => {
                       resize: "none",
                       borderRadius: "5px",
                       backgroundColor: "#eff1fd",
-                      // paddingTop: "10px",
-                      // paddingLeft: "10px",
                     }}
                     rows="5"
                     value={bookBrief}
@@ -681,19 +532,6 @@ const AddBook = (props) => {
                   </span>
                   {bookBriefError && (
                     <p
-                      style={
-                        {
-                          // backgroundColor: "red",
-                          // width: "100%",
-                          // height: "100%",
-                          // display: "inline-block",
-                          // position: "relative",
-                          // top: "-10px",
-                          // margin: "0",
-                          // padding: "0",
-                        }
-                      }
-                      // className="missing-field-warning"
                       className={`warning-p 
                       ${bookBrief ? "invisibleSpan" : ""}`}
                     >
@@ -709,27 +547,17 @@ const AddBook = (props) => {
                     }}
                   >{`${bookBrief.length}/800`}</p>
                 </div>
-
-                {/* <button className="btn btn-primary" type="submit">
-                  Save
-                </button> */}
-
                 <div>
                   <div
                     className="book-buttons"
                     style={{
-                      // border: "1px solid purple",
-                      // display: "flex",
-                      // flexDirection: "row",
                       float: "right",
                       display: "grid",
                       gridTemplateColumns: "auto auto",
                       gridTemplateRows: "auto",
                       gridGap: "10px",
-                      // height: "20%",
                       position: "absolute",
                       right: "40px",
-                      // right: "-226px",
                     }}
                   >
                     <div
@@ -745,13 +573,10 @@ const AddBook = (props) => {
                           borderRadius: "12px",
                           padding: "10px",
                           width: "5vw",
-                          // backgroundColor: "#b0011c",
                         }}
                         className="btn cancel-btn"
                         onClick={() => {
                           navigate("/main-page");
-                          // setToggleToast(!toggleToast);
-                          // console.log(toggleToast);
                         }}
                       >
                         Cancel
@@ -762,7 +587,6 @@ const AddBook = (props) => {
                       className="save-btn-div"
                     >
                       <button
-                        // type="submit"
                         type="button"
                         style={{
                           backgroundColor: "#0c4dcc",
@@ -771,7 +595,6 @@ const AddBook = (props) => {
                           borderRadius: "12px",
                           padding: "10px",
                           width: "5vw",
-                          // width: "fit-contents",
                         }}
                         className="btn btn-primary save-btn"
                         onClick={handleAddBook}
@@ -821,8 +644,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-// console.log("initial store ", store.getState());
-// store.subscribe(() => {
-//   console.log("store changed", store.getState());
-// });
 export default connect(mapStateToProps, mapDispatchToProps)(AddBook);

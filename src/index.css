@@ -9,16 +9,8 @@
   --fixed-width: 620px;
 }
 
-/* debugging */
-/* 
-* {
-  border: 1px solid red;
-} */
-/* debugging */
-
 body {
   margin: 0;
-  /* border: 0; */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -28,7 +20,6 @@ body {
   overflow: none;
 }
 
-/*  */
 main {
   min-height: 100vh;
   display: flex;
@@ -107,7 +98,6 @@ button .submitButton {
 }
 .submitButton {
   padding: 8px 25px !important;
-  /* font-size: x-small; */
   border-radius: 10px !important;
   background-color: #0a4cd3 !important;
 }
@@ -178,10 +168,6 @@ aside {
   background-color: var(--background-color);
   border-right: 3px solid #ad5eab;
 }
-/* .colored-edge {
-  width: 2px;
-  background-color: #ad5eab;
-} */
 
 .active-tab {
   background-color: var(--background-color);
@@ -193,15 +179,9 @@ aside {
   transition: var(--transition);
 }
 
-/* .full-ListBook {
-  width: 100vw;
-  transition: var(--transition);
-} */
-
 .content {
   width: 100vw;
   height: 100vh;
-  /* border: 10px solid red; */
 }
 
 /* navbar */
@@ -241,7 +221,6 @@ ul button {
 }
 .showDropDown {
   visibility: hidden;
-  /* height: 160px; */
 }
 
 /* booksList */
@@ -365,38 +344,11 @@ ul button {
   background-color: transparent;
 }
 
-/* book-details */
-
-/* repeated used classes */
-
-/* .content {
-  width: 100vw;
-  height: 100vh;
-} */
-
-/* .books {
-  padding-left: 5vw;
-  padding-right: 1vw;
-}
-/* .books h1 {
-  padding-left: 5vw;
-} */
-/* .books {
-  transition: var(--transition);
-  width: 90vw;
-}  */
-
-/*  */
-
 .full-ListBook {
   width: 100vw;
   transition: var(--transition);
 }
 
-/* button:focus {
-  border: none;
-  outline: 0;
-} */
 *:focus {
   outline: 0 !important;
 }
@@ -418,7 +370,6 @@ ul button {
 }
 
 .left {
-  /* border: 1px solid red; */
   width: 100%;
   height: 100%;
   padding-right: 10px;
@@ -432,7 +383,6 @@ ul button {
   border: 1px solid red;
 }
 .left p {
-  /* display: none; */
   position: relative;
   bottom: -5px;
   left: 5px;
@@ -450,9 +400,6 @@ ul button {
   color: #dc3545;
 }
 
-/* .missing-field-warning {
-  color: #dc3545;
-} */
 .right {
   width: 100%;
   height: 100%;
@@ -497,21 +444,12 @@ input[type="file"] {
   padding: 10px 20px;
 }
 div.right > div.img-div > img.book-cover {
-  /* width: "120px", */
-  /* // height: "180px", */
   width: 128px;
   height: 200px;
   border-radius: 10px;
   object-fit: cover;
   box-shadow: 2px 4px white, 4px 6px gray;
 }
-
-/* .custom-file-input:hover::before {
-  border-color: black;
-} */
-/* .custom-file-input:active::before {
-  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
-} */
 
 @media screen and (max-width: 1024px) {
   h1 {
@@ -616,15 +554,8 @@ div.right > div.img-div > img.book-cover {
     font-size: 0.9rem;
   }
   body {
-    /* font-size: 0.85rem; */
     font-size: 1rem;
   }
-  /* h1,
-  h2,
-  h3,
-  h4 {
-    line-height: 0.85;
-  } */
 
   /* login page */
 
@@ -632,7 +563,6 @@ div.right > div.img-div > img.book-cover {
     padding: 8px 25px;
     font-size: x-small;
     border-radius: 10px;
-    /* background-color: #0a4cd3; */
   }
   .btn {
     font-size: x-small;
@@ -703,7 +633,6 @@ div.right > div.img-div > img.book-cover {
   .lock-icon img {
     margin: 0 0px;
     margin-right: 0;
-    /* width: 20px; */
   }
 
   .pagination-nav {
@@ -713,10 +642,6 @@ div.right > div.img-div > img.book-cover {
   /* add / edit  book  */
 
   div.right > div.img-div > img.book-cover {
-    /* width: "120px", */
-    /* // height: "180px", */
-    /* width: 128px;
-    height: 200px; */
     width: 48px;
     height: 120px;
     border-radius: 10px;
@@ -726,7 +651,6 @@ div.right > div.img-div > img.book-cover {
 
   input[type="file"] {
     width: 80%;
-    /* margin-bottom: 0px; */
   }
 
   .custom-file-input::-webkit-file-upload-button {
@@ -745,7 +669,6 @@ div.right > div.img-div > img.book-cover {
   .save-btn {
     font-size: xx-small;
     width: fit-content !important;
-    /* padding-right: 15px; */
   }
   /*end of  add / edit  book  */
 }
@@ -767,15 +690,7 @@ div.right > div.img-div > img.book-cover {
     font-size: smaller;
   }
   body {
-    /* font-size: 0.85rem; */
     font-size: 1rem;
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    /* line-height: 0.85; */
   }
 
   /* login */
@@ -784,13 +699,11 @@ div.right > div.img-div > img.book-cover {
     padding: 8px 25px;
     font-size: smaller;
     border-radius: 10px;
-    /* background-color: #0a4cd3; */
   }
   .btn {
     padding: 8px 25px;
     font-size: smaller;
     border-radius: 10px;
-    /* background-color: #0a4cd3; */
   }
 
   /*end of  login */
@@ -824,44 +737,17 @@ div.right > div.img-div > img.book-cover {
   }
 
   .dropdown-menu {
-    /* width: 5vw; */
     width: 12px;
-    /* min-height: 15px; */
     min-width: 120px;
     margin-right: 15px;
     padding-right: 15px;
-    /* background-color: #dc3545; */
-    /* position: relative; */
-    /* right: 150px; */
   }
-  /* .dropdown-menu > ul { */
-  /* padding-bottom: 0;s */
-  /* width: 5vw; */
-  /* width: 12px; */
-  /* margin-right: 150px; */
-  /* background-color: #dc3545; */
-  /* } */
+
   .dropdown-menu > ul > li {
     width: 12px;
-    /* font-size: smaller; */
     font-size: 9px;
     padding-top: 5px;
   }
-  /* #root > main > div > div > nav > div.dropdown > div {
-    padding-right: 100px;
-    margin-right: 100px;
-    font-size: smaller;
-  } */
-
-  /* div.dropdown-menu {
-    font-size: smaller;
-  } */
-  /* .dropdown-menu {
-    display: inline-block;
-    margin-left: -55px;
-    margin-top: 10px;
-    font-size: smaller;
-  } */
 
   .add-book-div button {
     font-size: smaller;
@@ -889,21 +775,6 @@ div.right > div.img-div > img.book-cover {
     margin-top: 5px;
   }
 
-  /* .books-table tr,
-  .books-table th,
-  .books-table td {
-    width: 5%;
-    height: 2vh;
-    text-align: left;
-  }
-  .books-table tr:nth-child(6),
-  .books-table th:nth-child(6),
-  .books-table td:nth-child(6) {
-    width: 5%;
-    padding-right: 5px;
-  } */
-  /* works */
-
   .table > thead > tr > th,
   .table > thead > tr > td {
     font-size: smaller;
@@ -917,12 +788,10 @@ div.right > div.img-div > img.book-cover {
   .tab {
     height: 50px;
     padding-left: 10px;
-    /* margin-top: 25px; */
   }
   .tab img {
     height: 10px;
   }
-  /* works */
 
   .lock-icon img {
     width: 10px;
@@ -931,7 +800,6 @@ div.right > div.img-div > img.book-cover {
   .lock-icon img {
     margin: 0 0px;
     margin-right: 0;
-    /* width: 20px; */
   }
 
   .pagination-nav {
@@ -941,10 +809,6 @@ div.right > div.img-div > img.book-cover {
   /* add / edit  book  */
 
   div.right > div.img-div > img.book-cover {
-    /* width: "120px", */
-    /* // height: "180px", */
-    /* width: 128px;
-    height: 200px; */
     width: 48px;
     height: 120px;
     border-radius: 10px;
@@ -954,7 +818,6 @@ div.right > div.img-div > img.book-cover {
 
   input[type="file"] {
     width: 80%;
-    /* margin-bottom: 0px; */
   }
 
   .custom-file-input::-webkit-file-upload-button {
@@ -973,7 +836,6 @@ div.right > div.img-div > img.book-cover {
   .save-btn {
     font-size: smaller;
     width: fit-content !important;
-    /* padding-right: 15px; */
   }
   /*end of  add / edit  book  */
 }

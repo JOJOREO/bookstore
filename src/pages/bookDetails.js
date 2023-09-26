@@ -13,15 +13,11 @@ import store from "../store/store";
 import { useNavigate } from "react-router-dom";
 const BookDetails = (props) => {
   const navigate = useNavigate();
-  // const book = store.getState().book;
   const [book, setBook] = useState({});
-  // console.log(store.getState().book);
-  // const [toggleDropDown, setToggleDropDown] = useState(true);
   const [toggleToast, setToggleToast] = useState(false);
 
   useEffect(() => {
     setBook(store.getState().book.book);
-    // console.log(store.getState().book.book);
   }, []);
   useEffect(() => {
     setBook(store.getState().book.book);
@@ -53,7 +49,6 @@ const BookDetails = (props) => {
               height: "77vh",
               borderRadius: "32px",
               padding: "2vw",
-              // marginBottom: "10px",
             }}
           >
             {/*  */}
@@ -71,21 +66,11 @@ const BookDetails = (props) => {
                   display: "grid",
                   gridTemplateColumns: "auto auto",
                   gridGap: "45px",
-                  //   flexDirection: "row",
-                  //   justifyContent: "space-between",
-                  // border: "1px solid red",
                 }}
               >
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <img
-                    src={
-                      book?.volumeInfo?.imageLinks?.thumbnail
-                      // ||
-                      // URL.createObjectURL(
-                      //   store.getState().book.newBook.volumeInfo?.imageLinks
-                      //     ?.thumbnail
-                      // )
-                    }
+                    src={book?.volumeInfo?.imageLinks?.thumbnail}
                     alt={store.getState().book.book?.volumeInfo?.title}
                     style={{
                       width: "120px",
@@ -93,15 +78,12 @@ const BookDetails = (props) => {
                       borderRadius: "10px",
                       objectFit: "cover",
                       boxShadow: " 2px 4px white, 4px 6px gray",
-                      // marginBottom: "15px",
-                      // paddingTop: "10px",
                     }}
                   ></img>
                   <img
                     src={bookmarkIcon}
                     style={{
                       width: "18px",
-                      // height: "13px",
                       margin: "0",
                       padding: "0",
                       marginLeft: "20px",
@@ -113,21 +95,13 @@ const BookDetails = (props) => {
                   style={{ display: "flex", flexDirection: "column" }}
                 >
                   <h3 style={{ textTransform: "capitalize", marginTop: "0" }}>
-                    {/* {console.log(store.getState().book)}
-                    {console.log(store.getState().book.book)} */}
                     {store.getState().book.book?.volumeInfo?.title}
-                    {/* dead astronauts */}
-                    {/* {book.book.volumeInfo.title && book.book.volumeInfo.title} */}
                   </h3>
-                  {/* <div style={{ display: "flex", flexDirection: "row" }}> */}
                   <div
                     style={{
                       display: "grid",
                       gridTemplateColumns: "auto auto",
                       gridGap: "45px",
-                      //   flexDirection: "row",
-                      //   justifyContent: "space-between",
-                      //   border: "1px solid red",
                     }}
                   >
                     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -140,8 +114,6 @@ const BookDetails = (props) => {
                       style={{
                         display: "flex",
                         flexDirection: "column",
-                        // border: "1px solid red",
-                        // width: "100%",
                       }}
                     >
                       <h4 style={{ color: "#2596be" }} className="number-hours">
@@ -155,9 +127,6 @@ const BookDetails = (props) => {
               <div
                 className="book-buttons top-right"
                 style={{
-                  // border: "1px solid purple",
-                  // display: "flex",
-                  // flexDirection: "row",
                   display: "grid",
                   gridTemplateColumns: "auto auto",
                   gridTemplateRows: "auto",
@@ -202,13 +171,6 @@ const BookDetails = (props) => {
                 display: "grid",
                 gridTemplateColumns: "auto auto",
                 gridGap: "20vw",
-                // gridTemplateRows: "auto",
-                // columnGap: "10 px",
-                // gridGap: "5px",
-                // border:"5px solid black"
-                //   flexDirection: "row",
-                //   justifyContent: "space-between",
-                // border: "1px solid red",
               }}
             >
               <div
@@ -218,7 +180,6 @@ const BookDetails = (props) => {
                   flexDirection: "column",
                   justifyContent: "left",
                   width: "auto",
-                  // border: "1px solid gold",
                 }}
               >
                 <p style={{ color: "gray" }}>
@@ -228,9 +189,6 @@ const BookDetails = (props) => {
                 </p>
                 <h4 style={{ color: "#2596be", marginTop: "0" }}>
                   ${" "}
-                  {/* {console.log(
-                    store.getState().book.book.saleInfo.listPrice.amount
-                  )} */}
                   {store.getState().book.book?.saleInfo?.retailPrice &&
                     store.getState().book.book?.saleInfo?.retailPrice.amount}
                 </h4>
@@ -246,14 +204,12 @@ const BookDetails = (props) => {
                 <button
                   style={{
                     borderRadius: "32px",
-                    // height: "auto",
                     width: "fit-content",
                     color: "gray",
                   }}
                   className="btn "
                 >
                   {book?.volumeInfo?.categories?.toString()}
-                  {/* {store.getState().book.book?.volumeInfo.categories.toString()} */}
                 </button>
               </div>
               <div
@@ -261,10 +217,8 @@ const BookDetails = (props) => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  // border: "1px solid green",
                   maxWidth: "50vw",
                   maxHeight: "5vh",
-                  // padding: "0",
                 }}
               >
                 <h3 style={{ textTransform: "capitalize", marginTop: "0" }}>
@@ -273,11 +227,7 @@ const BookDetails = (props) => {
                 <p
                   style={{
                     color: "gray",
-                    // border: "1px solid red",
                     overflow: "none",
-                    // maxHeight: "5vh",
-                    overflow: "none",
-                    // maxWidth: "50vw",
                   }}
                 >
                   {store.getState().book.book?.volumeInfo?.description
@@ -322,8 +272,5 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-// console.log("initial store ", store.getState());
-// store.subscribe(() => {
-//   console.log("store changed", store.getState());
-// });
+
 export default connect(mapStateToProps, mapDispatchToProps)(BookDetails);

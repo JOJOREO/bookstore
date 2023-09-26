@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { libraryImage } from "./libraryImg.png";
 import libraryImage from "../images/libraryImg.png";
 import logoIMg from "../images/acore-logo-2.png.webp";
 
@@ -17,8 +16,7 @@ const LoginPage = (props) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); //optional , not used (splitting used logged in or not into separate state )
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     data: { email: "", password: "" },
     loginState: false,
@@ -26,7 +24,7 @@ const LoginPage = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setUser({ data: { email: email, password: password }, loginState: true });
-    // props.LoginUser(user);
+
     props.LoginUser({
       data: { email: email, password: password },
       loginState: true,
@@ -81,16 +79,7 @@ const LoginPage = (props) => {
             </div>
           </div>
           <a style={{ display: "block", margin: "4% 0 " }}>Forgot Password?</a>
-          <button
-            onClick={(e) => {}}
-            // style={{
-            //   width: "9vw",
-            //   height: "3vw",
-            //   borderRadius: "12px",
-            //   backgroundColor: "#0a4cd3",
-            // }}
-            className="submitButton btn btn-primary "
-          >
+          <button onClick={(e) => {}} className="submitButton btn btn-primary ">
             Sign In
           </button>
           <hr style={{ width: "100%" }} />

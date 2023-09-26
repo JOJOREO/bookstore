@@ -26,25 +26,22 @@ import deleteIconHover from "../images/352303_delete_icon (1).png";
 import { useNavigate } from "react-router-dom";
 import { Dialog } from "@material-ui/core";
 
-console.log("initial store ", store.getState());
+//store subscription to debug
 
-store.subscribe(() => {
-  console.log("store changed full store ==> ", store.getState());
-  // console.log(
-  //   "store changed single variable == >",
-  //   store.getState().toggleSideBar.toggleSideBar
-  // );
-});
+// console.log("initial store ", store.getState());
+// store.subscribe(() => {
+//   console.log("store changed full store ==> ", store.getState());
+// });
+
 const handleSubmit = (e) => {
   e.preventDefault();
 };
-// useEffect(() => {
-//   !store.getState().user.data.email ? navigate("/") : "";
-// }, [store.getState().user.data.email]);
 
 const url =
   "https://www.googleapis.com/books/v1/volumes?q=flowers&filter=free-ebooks&key=" +
   "AIzaSyBqQ-1lxJPfHM-9gxOHnL9qsvlXOw7MnQM";
+
+//another api results
 // const url =
 //   "https://www.googleapis.com/books/v1/volumes?q=flowers&key=" +
 //   "AIzaSyBqQ-1lxJPfHM-9gxOHnL9qsvlXOw7MnQM";
@@ -59,10 +56,6 @@ const ListBooks = (props) => {
   const [toggleToast, setToggleToast] = useState(false);
   const [confirmFromToast, setConfirmFromToast] = useState(false);
 
-  // useEffect(() => {
-  //   deleteBook(book.id);
-  // }, [confirmFromToast]);
-
   const toastCallback = (reply) => {
     setConfirmFromToast(reply);
   };
@@ -72,23 +65,11 @@ const ListBooks = (props) => {
   const getData = async () => {
     const response = await fetch(url);
     let data = await response.json();
-    // console.log(
-    //   "store.getState().book.deletedArray.length = ",
-    //   store.getState().book.deletedArray.length
-    // );
-    // console.log(
-    //   "store.getState().book.deletedArray.length != 0 true / false = ",
-    //   store.getState().book.deletedArray.length != 0
-    // );
 
     if (store.getState().book.deletedArray.length != 0) {
       //deleted book or books
 
       let result = data.items.filter((book, index) => {
-        // console.log(
-        //   "store.getState().book.deletedArray.includes(book.id)",
-        //   store.getState().book.deletedArray.includes(book.id)
-        // );
         if (!store.getState().book.deletedArray.includes(book.id)) return book;
       });
       //end of // deleted book or books
@@ -106,12 +87,8 @@ const ListBooks = (props) => {
               "edited book authors",
               store.getState().book.newBook.volumeInfo.authors.toString()
             );
-            // console.log("edited book found");
             result.splice(index, 1, store.getState().book.newBook);
             props.AddToEditArray(store.getState().book.newBook);
-            // props.toggleEditFunction(false);
-            // data.items.splice(index, 0, store.getState().book.newBook);
-            // return store.getState().book.newBook;
           } else return book;
         });
         props.toggleEditFunction(false);
@@ -130,169 +107,38 @@ const ListBooks = (props) => {
       for (let i = 0; i < store.getState().book.editArray.length; i++) {
         idsArray.push(store.getState().book.editArray[i].id);
       }
-      // console.log(idsArray);
 
       if (store.getState().book.editArray.length != 0) {
-        // let newBooksArray = [];
-        // newBooksArray = data.items.filter((book, index) => {
         result.filter((book, index) => {
-          // console.log(store.getState().book.editArray[index]);
-          // console.log(store.getState().book.editArray);
-          // console.log(store.getState().book.editArray[index].id);
-          // console.log(book.id);
-          // console.log(book.id === store.getState().book.editArray[index].id);
-          // console.log(store.getState().book.editArray.includes(book.id));
           if (idsArray.includes(book.id)) {
-            // console.log(book.id);
-            // return store.getState().book.editArray[index];
             for (let i = 0; i < store.getState().book.editArray.length; i++) {
-              // idsArray.push(store.getState().book.editArray[i].id);
               if (store.getState().book.editArray[i].id === book.id)
                 result.splice(index, 1, store.getState().book.editArray[i]);
             }
           }
         });
-        // setBooksData({ items: newBooksArray });
-        // return;
       }
       //end of // maintain multiple edited books
 
       //add new book
-
-      // console.log(
-      //   "store.getState().book.newBook = ",
-      //   store.getState().book.newBook
-      // );
-      // console.log(
-      //   "JSON.stringify(store.getState().book.newBook) !== {}",
-      //   JSON.stringify(store.getState().book.newBook) !== "{}"
-      // );
       if (
         JSON.stringify(store.getState().book.newBook) !== "{}" &&
         store.getState().book.toggleEdit == false
       ) {
-        // console.log(store.getState().book.newBook);
-        // result = result.push(store.getState().book.newBook);
         result.push(store.getState().book.newBook);
         console.log("new book added");
-        // console.log(result);
       }
-      // setBooksData({ items: result });
-      // data = booksData;
-      // console.log(result);
-
       //end of //add new book
 
       setBooksData({ items: result });
       setLoading(false);
-
-      // console.log(booksData);
-
-      // test
-
-      //fully new book to add
-
-      console.log("case 1");
-      // if (JSON.stringify(store.getState().book.newBook) === "{}") {
-      //   console.log("no new books to add");
-      // } else {
-      //   // console.log("new book added");
-      //   // console.log(store.getState().book.newBook);
-      //   // console.log(data);
-      //   if (!store.getState().book.toggleEdit) {
-      //     data.items.push(store.getState().book.newBook);
-      //     console.log("new book added");
-      //     // props.toggleEditFunction(false);
-      //   }
-      //   // console.log(data.items);
-      // }
-
-      // //end of // fully new book to add
-
-      // //edited book back
-
-      // if (store.getState().book.toggleEdit) {
-      //   console.log("edited book ");
-      //   console.log(store.getState().book.newBook);
-      //   console.log(store.getState().book.newBook.id);
-      //   data.items.filter((book, index) => {
-      //     if (book.id === store.getState().book.newBook.id) {
-      //       console.log("edited book found");
-      //       console.log(
-      //         "edited book authors",
-      //         store.getState().book.newBook.volumeInfo.authors.toString()
-      //       );
-      //       // console.log("edited book found");
-      //       data.items.splice(index, 1, store.getState().book.newBook);
-      //       // props.toggleEditFunction(false);
-      //       // data.items.splice(index, 0, store.getState().book.newBook);
-      //       // return store.getState().book.newBook;
-      //     } else return book;
-      //   });
-      // }
-
-      // //end of // edited book back
-
-      // // maintain multiple edited books
-
-      // console.log(store.getState().book.editArray.length);
-      // let idsArray = [];
-      // for (let i = 0; i < store.getState().book.editArray.length; i++) {
-      //   idsArray.push(store.getState().book.editArray[i].id);
-      // }
-      // // console.log(idsArray);
-
-      // if (store.getState().book.editArray.length != 0) {
-      //   // let newBooksArray = [];
-      //   // newBooksArray = data.items.filter((book, index) => {
-      //   data.items.filter((book, index) => {
-      //     console.log(store.getState().book.editArray[index]);
-      //     console.log(store.getState().book.editArray);
-      //     // console.log(store.getState().book.editArray[index].id);
-      //     console.log(book.id);
-      //     // console.log(book.id === store.getState().book.editArray[index].id);
-      //     // console.log(store.getState().book.editArray.includes(book.id));
-      //     if (idsArray.includes(book.id)) {
-      //       console.log(book.id);
-      //       // return store.getState().book.editArray[index];
-      //       for (let i = 0; i < store.getState().book.editArray.length; i++) {
-      //         // idsArray.push(store.getState().book.editArray[i].id);
-      //         if (store.getState().book.editArray[i].id === book.id)
-      //           data.items.splice(index, 1, store.getState().book.editArray[i]);
-      //       }
-      //     }
-      //   });
-      //   // setBooksData({ items: newBooksArray });
-      //   // return;
-      // }
-      // //end of // maintain multiple edited books
-
-      // console.log({ items: result });
-      // setBooksData({ items: result });
-
-      // setBooksData(data);
     } else {
-      // console.log("else");
-      // console.log(store.getState().book.newBook);
-      // console.log(store.getState().book.newBook);
-      // console.log(store.getState().book.newBook == {});
-      // console.log(store.getState().book.newBook != {});
-      // console.log(!(store.getState().book.newBook != {}));
-      // console.log(JSON.stringify(store.getState().book.newBook) === "{}");
-      // console.log(store.getState().book.newBook.id);
-      // console.log(store.getState().book.newBook.id != undefined);
-      // console.log("case 2");
       if (JSON.stringify(store.getState().book.newBook) === "{}") {
-        // console.log("no new books to add");
       } else {
-        // console.log("new book added");
-        // console.log(store.getState().book.newBook);
-        // console.log(data);
         if (!store.getState().book.toggleEdit) {
           data.items.push(store.getState().book.newBook);
           console.log("new book added");
         }
-        // console.log(data.items);
       }
 
       if (store.getState().book.toggleEdit) {
@@ -306,57 +152,35 @@ const ListBooks = (props) => {
               "edited book authors",
               store.getState().book.newBook.volumeInfo.authors.toString()
             );
-            // console.log("edited book found");
-            // data.items.splice(index, 0);
+
             data.items.splice(index, 1, store.getState().book.newBook);
 
             props.AddToEditArray(store.getState().book.newBook);
-
-            // data.items.splice(index, 0, store.getState().book.newBook);
-            // props.toggleEditFunction(false);
-            // return store.getState().book.newBook;
           } else return book;
         });
         props.toggleEditFunction(false);
         props.AddNewBook({});
       }
-      // console.log(store.getState().book.editArray.length);
 
       let idsArray = [];
       for (let i = 0; i < store.getState().book.editArray.length; i++) {
         idsArray.push(store.getState().book.editArray[i].id);
       }
-      // console.log(idsArray);
 
       if (store.getState().book.editArray.length != 0) {
-        // let newBooksArray = [];
-        // newBooksArray = data.items.filter((book, index) => {
         data.items.filter((book, index) => {
-          // console.log(store.getState().book.editArray[index]);
-          // console.log(store.getState().book.editArray);
-          // console.log(store.getState().book.editArray[index].id);
-          // console.log(book.id);
-          // console.log(book.id === store.getState().book.editArray[index].id);
-          // console.log(store.getState().book.editArray.includes(book.id));
           if (idsArray.includes(book.id)) {
-            // console.log(book.id);
-            // return store.getState().book.editArray[index];
             for (let i = 0; i < store.getState().book.editArray.length; i++) {
-              // idsArray.push(store.getState().book.editArray[i].id);
               if (store.getState().book.editArray[i].id === book.id)
                 data.items.splice(index, 1, store.getState().book.editArray[i]);
             }
           }
         });
-        // setBooksData({ items: newBooksArray });
-        // return;
       }
 
       setBooksData(data);
       setLoading(false);
-      // props.toggleEditFunction(false);
     }
-    // }
   };
 
   useEffect(() => {
@@ -364,21 +188,12 @@ const ListBooks = (props) => {
   }, []);
   useEffect(() => {
     getData();
-    // navigate("/main-page");
   }, [store.getState().book.deletedArray]);
 
   useEffect(() => {}, [booksData]);
   const deleteBook = async (bookId) => {
     props.AddToDeleteArray(bookId);
 
-    // const data = await response.json();
-    // setBooksData(data);
-    // setLoading(false);
-
-    // getData();
-    // console.log(bookId);
-    // console.log(booksData);
-    // console.log(data);
     let newBooksArray = [];
     newBooksArray = booksData.items.filter((book, index) => {
       if (
@@ -390,38 +205,6 @@ const ListBooks = (props) => {
     });
     setBooksData({ items: newBooksArray });
   };
-
-  // const deleteFromDetails = async (bookId) => {
-  //   props.AddToDeleteArray(bookId);
-  //   const response = await fetch(url);
-  //   const data = await response.json();
-  //   // setBooksData(data);
-  //   // setLoading(false);
-
-  //   // getData();
-  //   // console.log(bookId);
-  //   // console.log(booksData);
-  //   // console.log(data);
-  //   let newBooksArray = [];
-  //   // newBooksArray = booksData.items.filter((book, index) => {
-  //   newBooksArray = data.items.filter((book, index) => {
-  //     // console.log(book);
-  //     // console.log(book.id);
-  //     // console.log(bookId);
-  //     console.log(!store.getState().book.deletedArray.includes(book.id));
-  //     if (
-  //       book.id !== bookId ||
-  //       !store.getState().book.deletedArray.includes(book.id)
-  //     ) {
-  //       console.log("normal found");
-  //       return book;
-  //     }
-  //   });
-  //   console.log({ items: newBooksArray });
-  //   setBooksData({ items: newBooksArray });
-  // };
-
-  // props.bookDelete(deleteBook);
 
   const [bookTitle, setBookTitle] = useState();
   const [bookCategory, setBookCategory] = useState();
@@ -441,7 +224,7 @@ const ListBooks = (props) => {
     }
     const result = booksData.items.filter((book, index) => {
       let authors = book.volumeInfo.authors;
-      // console.log(authors && authors.toString());
+
       if (
         book.volumeInfo.title.includes(searchWord) ||
         (book.volumeInfo.authors &&
@@ -457,10 +240,8 @@ const ListBooks = (props) => {
         return;
       }
     });
-    // console.log("result ", result);
-    // console.log("pageIndex ", pageIndex);
+
     setBooksData({ items: result });
-    // setSearchWord("");
   };
 
   return (
@@ -471,8 +252,6 @@ const ListBooks = (props) => {
           : "full-ListBook"
       }
     >
-      {/* {console.log(props.toggleSideBar)} */}
-      {/* {console.log(props)} */}
       <SideBar />
       <div className={`content`}>
         {store.getState().toggleSideBar.toggleSideBar}
@@ -514,7 +293,6 @@ const ListBooks = (props) => {
                   onClick={() => {
                     navigate("/add-book");
                     props.toggleEditFunction(false);
-                    // store.getState().book.toggleEdit = false;
                   }}
                 >
                   + Add Book
@@ -537,18 +315,9 @@ const ListBooks = (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {booksData && console.log(booksData.items)} */}
-
                   {booksData.items &&
                     booksData.items
                       .map((book, index) => {
-                        // if (book == {}) {
-                        //   console.log("empty");
-                        // }
-                        // console.log(book);
-                        // console.log(book.volumeInfo);
-                        // console.log(book.volumeInfo.title);
-                        // console.log(book);
                         const id = book.id;
                         const {
                           title,
@@ -561,13 +330,9 @@ const ListBooks = (props) => {
                           industryIdentifiers,
                           subtitle,
                         } = book.volumeInfo;
-                        // while (index <= 6)
                         return (
                           <tr key={id}>
-                            <td scope="row">
-                              {/* {booksData.items[index].volumeInfo.title} */}
-                              {title}
-                            </td>
+                            <td scope="row">{title}</td>
                             <td>{categories ? categories : "Flowers"}</td>
                             <td>{authors ? authors : "unknown"}</td>
                             <td scope="row">
@@ -621,59 +386,11 @@ const ListBooks = (props) => {
                                   <button
                                     type="button"
                                     onClick={() => {
-                                      // deleteBook(book.id);
-                                      // console.log(
-                                      //   store.getState().book.deletedBookConfirm
-                                      // );
                                       props.bookSetter(book);
-                                      // console.log(confirmFromToast);
-                                      // console.log(store.getState().book);
                                       setToggleToast(!toggleToast);
-                                      // if (confirmFromToast) {
                                       if (confirmFromToast) {
-                                        // deleteBook(book.id);
-                                        // navigate("/main-page");
                                         setConfirmFromToast(false);
                                       }
-                                      // console.log(
-                                      //   store.getState().book.deletedBookConfirm
-                                      // );
-                                      // console.log(
-                                      //   "confirmFromToast",
-                                      //   confirmFromToast
-                                      // );
-                                      // if (confirmFromToast) {
-                                      //   AddToDeleteArray(book.id);
-                                      //   props.bookSetter(book);
-                                      //   deleteBook(book.id);
-                                      // }
-                                      // dialog(
-                                      //   "are you sure you want to delete?"
-                                      // );
-                                      // console.log(
-                                      //   store.getState().book.deletedBookConfirm
-                                      // );
-                                      // props.AddToDeleteArray(book.id);
-                                      // const deletion = async () => {
-                                      //   const cond = await store.getState().book
-                                      //     .deletedBookConfirm;
-                                      //   if (cond) {
-                                      //     deleteBook(book.id);
-                                      //   }
-                                      //   deletion();
-                                      //   // console.log(
-                                      //   //   "delete book confirm",
-                                      //   //   store.getState().book
-                                      //   //     .deletedBookConfirm
-                                      //   // );
-                                      //   // // props.AddToDeleteArray(book.id);
-                                      // };
-                                      // if (toggleToast) {
-                                      //   props.bookDelete(true);
-                                      //   props.bookSetter(book);
-                                      //   // deleteBook(book.id);
-                                      // }
-                                      // deleteBook(book.id);
                                     }}
                                   >
                                     <img
@@ -717,7 +434,6 @@ const ListBooks = (props) => {
                         type="button"
                         onClick={() => {
                           pageIndex > 1 ? setPageIndex(1) : "setPageIndex(2)";
-                          // console.log(pageIndex);
                         }}
                       >
                         <span aria-hidden="true">&laquo;</span>
@@ -765,7 +481,6 @@ const ListBooks = (props) => {
                         type="button"
                         onClick={() => {
                           pageIndex < 2 ? setPageIndex(2) : "setPageIndex(1)";
-                          // console.log(pageIndex);
                         }}
                       >
                         <span aria-hidden="true">&raquo;</span>
@@ -822,8 +537,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-// console.log("initial store ", store.getState());
-// store.subscribe(() => {
-//   console.log("store changed", store.getState());
-// });
 export default connect(mapStateToProps, mapDispatchToProps)(ListBooks);
