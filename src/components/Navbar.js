@@ -36,6 +36,7 @@ const Navbar = (props) => {
       {/* <div className="dropdown" style={{ height: "50vh" }}> */}
       <div className="dropdown">
         <button
+          type="button"
           style={{
             background: "none",
             border: "none",
@@ -63,6 +64,7 @@ const Navbar = (props) => {
             </li>
             <li>
               <button
+                type="button"
                 onClick={() => {
                   props.LogoutUser(props.user);
                   setToggleDropDown(!toggleDropDown);

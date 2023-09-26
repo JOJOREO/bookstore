@@ -45,7 +45,7 @@ const LoginPage = (props) => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
-              type="text"
+              type="email"
               className="form-control"
               id="EmailAddress"
               placeholder="Email Address"

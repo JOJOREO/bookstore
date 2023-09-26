@@ -669,6 +669,7 @@ const AddBook = (props) => {
                         }}
                         className="btn "
                         onClick={() => {
+                          navigate("/main-page");
                           // setToggleToast(!toggleToast);
                           // console.log(toggleToast);
                         }}

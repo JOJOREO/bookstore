@@ -459,7 +459,9 @@ const ListBooks = (props) => {
         <Navbar />
         <div
           className={`books ${
-            props.toggleSideBar.toggleSideBar ? "full-ListBook" : ""
+            props.toggleSideBar.toggleSideBar
+              ? "full-ListBook"
+              : "minimized-listBook"
           }`}
         >
           <h1>Books</h1>
